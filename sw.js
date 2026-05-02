@@ -1,6 +1,5 @@
 const CACHE = "textoquest-v1";
 const FILES = [
-  "./",
   "./index.html",
   "./style.css",
   "./app.js",
