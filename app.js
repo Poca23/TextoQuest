@@ -66,7 +66,6 @@ const CLUES = [
     type: "🧍 Factuel",
     question:
       "Qui sont les personnages de ce texte ? Décris chacun d'eux brièvement.",
-    // Groupe A = mots sur Kenji, Groupe B = mots sur Sora
     keywords: [
       { group: "Kenji", words: ["kenji", "ninja", "mission"] },
       { group: "Sora", words: ["sora", "fille", "clan"] },
@@ -216,8 +215,10 @@ const state = {
   puzzleOrder: [],
   currentClue: 0,
   earnedStamps: 0,
-  attempts: 0, // essais pour l'indice courant
+  attempts: 0,
   dragSrcIndex: null,
+  touchSrcIndex: null, // index du bloc touché
+  touchClone: null, // fantôme visuel pendant le glisser tactile
 };
 
 // ═══════════════════════════════════════════════════
@@ -250,24 +251,20 @@ function shuffle(arr) {
   return a;
 }
 
-// Vérifie que chaque groupe a au moins 1 mot présent dans la réponse
 function checkKeywords(answer, keywords) {
   const low = answer.toLowerCase();
   const missing = keywords.filter((g) => !g.words.some((w) => low.includes(w)));
   return { ok: missing.length === 0, missing };
 }
 
-// Surligne les indices dans tous les panneaux texte visibles
 function highlightHints(hints) {
   ["story-text", "story-text-puzzle", "story-text-clues"].forEach((id) => {
     const el = $(id);
     if (!el) return;
     let html = el.innerHTML;
     hints.forEach((hint) => {
-      // échappe les caractères spéciaux pour la regex
       const escaped = hint.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const re = new RegExp(`(${escaped})`, "gi");
-      html = html.replace(re, "<mark>$1</mark>");
+      html = html.replace(new RegExp(`(${escaped})`, "gi"), "<mark>$1</mark>");
     });
     el.innerHTML = html;
   });
@@ -276,13 +273,12 @@ function highlightHints(hints) {
 function clearHighlights() {
   ["story-text", "story-text-puzzle", "story-text-clues"].forEach((id) => {
     const el = $(id);
-    if (!el) return;
-    el.innerHTML = el.innerHTML.replace(/<mark>(.*?)<\/mark>/gi, "$1");
+    if (el) el.innerHTML = el.innerHTML.replace(/<mark>(.*?)<\/mark>/gi, "$1");
   });
 }
 
 // ═══════════════════════════════════════════════════
-//  PUZZLE
+//  PUZZLE — drag (souris) + touch (mobile)
 // ═══════════════════════════════════════════════════
 
 function buildPuzzle() {
@@ -297,13 +293,23 @@ function buildPuzzle() {
     div.draggable = true;
     div.dataset.index = i;
     div.innerHTML = `<div class="block-label">${block.label}</div>${block.text}`;
+
+    // ── Souris ──────────────────────────────────────
     div.addEventListener("dragstart", onDragStart);
     div.addEventListener("dragover", onDragOver);
     div.addEventListener("drop", onDrop);
     div.addEventListener("dragend", onDragEnd);
+
+    // ── Tactile ─────────────────────────────────────
+    div.addEventListener("touchstart", onTouchStart, { passive: true });
+    div.addEventListener("touchmove", onTouchMove, { passive: false });
+    div.addEventListener("touchend", onTouchEnd);
+
     zone.appendChild(div);
   });
 }
+
+/* ── Souris ─────────────────────────────────────── */
 
 function onDragStart(e) {
   state.dragSrcIndex = +e.currentTarget.dataset.index;
@@ -322,13 +328,88 @@ function onDragOver(e) {
 
 function onDrop(e) {
   e.preventDefault();
-  const targetIndex = +e.currentTarget.dataset.index;
-  if (state.dragSrcIndex === targetIndex) return;
+  swapBlocks(state.dragSrcIndex, +e.currentTarget.dataset.index);
+}
 
+function onDragEnd() {
+  document
+    .querySelectorAll(".puzzle-block")
+    .forEach((b) => b.classList.remove("dragging", "drag-over"));
+}
+
+/* ── Tactile ────────────────────────────────────── */
+
+function onTouchStart(e) {
+  const touch = e.touches[0];
+  state.touchSrcIndex = +e.currentTarget.dataset.index;
+
+  // Crée un fantôme visuel collé au doigt
+  const clone = e.currentTarget.cloneNode(true);
+  clone.style.cssText = `
+    position:fixed; z-index:9999; opacity:0.85; pointer-events:none;
+    width:${e.currentTarget.offsetWidth}px;
+    left:${touch.clientX - e.currentTarget.offsetWidth / 2}px;
+    top:${touch.clientY - e.currentTarget.offsetHeight / 2}px;
+  `;
+  document.body.appendChild(clone);
+  state.touchClone = clone;
+
+  e.currentTarget.classList.add("dragging");
+}
+
+function onTouchMove(e) {
+  e.preventDefault(); // empêche le scroll pendant le drag
+  const touch = e.touches[0];
+
+  // Déplace le fantôme
+  if (state.touchClone) {
+    state.touchClone.style.left = `${touch.clientX - state.touchClone.offsetWidth / 2}px`;
+    state.touchClone.style.top = `${touch.clientY - state.touchClone.offsetHeight / 2}px`;
+  }
+
+  // Met en surbrillance le bloc sous le doigt
+  document
+    .querySelectorAll(".puzzle-block")
+    .forEach((b) => b.classList.remove("drag-over"));
+  const target = blockUnderTouch(touch);
+  if (target) target.classList.add("drag-over");
+}
+
+function onTouchEnd(e) {
+  const touch = e.changedTouches[0];
+
+  // Nettoie le fantôme et les classes
+  if (state.touchClone) {
+    state.touchClone.remove();
+    state.touchClone = null;
+  }
+  document
+    .querySelectorAll(".puzzle-block")
+    .forEach((b) => b.classList.remove("dragging", "drag-over"));
+
+  const target = blockUnderTouch(touch);
+  if (target) swapBlocks(state.touchSrcIndex, +target.dataset.index);
+
+  state.touchSrcIndex = null;
+}
+
+/** Renvoie le .puzzle-block situé sous les coordonnées du toucher */
+function blockUnderTouch(touch) {
+  // On cache le clone pour que elementFromPoint trouve le vrai bloc
+  if (state.touchClone) state.touchClone.style.display = "none";
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (state.touchClone) state.touchClone.style.display = "";
+  return el ? el.closest(".puzzle-block") : null;
+}
+
+/* ── Swap commun souris & tactile ───────────────── */
+
+function swapBlocks(srcIdx, tgtIdx) {
+  if (srcIdx === null || srcIdx === tgtIdx) return;
   const zone = $("puzzle-zone");
   const blocks = [...zone.querySelectorAll(".puzzle-block")];
-  const src = blocks[state.dragSrcIndex];
-  const tgt = blocks[targetIndex];
+  const src = blocks[srcIdx];
+  const tgt = blocks[tgtIdx];
 
   const placeholder = document.createElement("div");
   zone.insertBefore(placeholder, src);
@@ -339,16 +420,10 @@ function onDrop(e) {
   [...zone.querySelectorAll(".puzzle-block")].forEach(
     (b, i) => (b.dataset.index = i),
   );
-  [state.puzzleOrder[state.dragSrcIndex], state.puzzleOrder[targetIndex]] = [
-    state.puzzleOrder[targetIndex],
-    state.puzzleOrder[state.dragSrcIndex],
+  [state.puzzleOrder[srcIdx], state.puzzleOrder[tgtIdx]] = [
+    state.puzzleOrder[tgtIdx],
+    state.puzzleOrder[srcIdx],
   ];
-}
-
-function onDragEnd() {
-  document
-    .querySelectorAll(".puzzle-block")
-    .forEach((b) => b.classList.remove("dragging", "drag-over"));
 }
 
 // ═══════════════════════════════════════════════════
@@ -424,7 +499,6 @@ const App = {
     const fb = $("clue-feedback");
     const clue = CLUES[state.currentClue];
 
-    // Réponse trop courte
     if (answer.length < 10) {
       fb.className = "feedback error";
       fb.textContent =
@@ -435,7 +509,6 @@ const App = {
     const { ok, missing } = checkKeywords(answer, clue.keywords);
 
     if (ok) {
-      // ✅ Bonne réponse
       clearHighlights();
       state.earnedStamps++;
       buildStamps("stamps-row");
@@ -453,12 +526,10 @@ const App = {
       return;
     }
 
-    // ❌ Mauvaise réponse
     state.attempts++;
     const missingLabels = missing.map((g) => g.group).join(", ");
 
     if (state.attempts >= 3) {
-      // Après 3 essais → surlignage + message
       highlightHints(clue.hints);
       fb.className = "feedback error";
       fb.textContent = `💡 Relis attentivement le texte : les passages surlignés en jaune vont t'aider ! Il manquait des informations sur : ${missingLabels}.`;
