@@ -5,16 +5,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>L'Enquêteur du Récit</title>
+    <link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" />
     <link rel="stylesheet" href="style.css" />
 </head>
+
 
 <body>
 
     <!-- ÉCRAN D'ACCUEIL -->
     <div id="screen-intro" class="screen active">
         <div class="intro-card">
-            <div class="intro-icon">🥷</div>
-            <h1>L'Enquêteur du Récit</h1>
+            <div class="intro-logo-wrap">
+                <img src="assets/logo/logo_TextoQuest.png" alt="L'Enquêteur du Récit" />
+            </div>
+
+
             <p class="subtitle">L'Épreuve Cachée</p>
             <p class="intro-text">
                 Ta mission, si tu l'acceptes : lire le texte, reconstituer le récit,
@@ -22,6 +27,7 @@
             </p>
             <button class="btn-primary" onclick="App.startReading()">Commencer la mission</button>
         </div>
+
     </div>
 
     <!-- ÉCRAN DE LECTURE -->

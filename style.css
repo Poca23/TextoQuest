@@ -85,8 +85,28 @@ body::before {
   border-color: var(--accent);
 }
 .intro-icon {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   margin-bottom: 0.5rem;
+}
+
+.intro-logo {
+  height: 160px;
+  width: auto;
+  margin-bottom: 0.8rem;
+}
+
+.intro-logo-wrap {
+  max-width: 380px;
+  width: 100%;
+  height: 70px;
+  overflow: hidden;
+  margin: 0 auto 0.8rem;
+}
+
+.intro-logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 h1,
