@@ -7,6 +7,12 @@
     <title>L'Enquêteur du Récit</title>
     <link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" />
     <link rel="stylesheet" href="style.css" />
+
+    <link rel="manifest" href="manifest.json" />
+    <script>
+        if ("serviceWorker" in navigator)
+            navigator.serviceWorker.register("./sw.js");
+    </script>
 </head>
 
 
