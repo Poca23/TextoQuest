@@ -1,0 +1,34 @@
+# ── Système d'exploitation ────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Éditeurs & IDE ────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+*.swp
+*~
+
+# ── Node.js (si tooling futur) ────────────────────
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ── Serveurs locaux & builds ──────────────────────
+dist/
+build/
+.cache/
+
+# ── Variables d'environnement ─────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Logs & fichiers temporaires ───────────────────
+*.log
+*.tmp
+*.bak
