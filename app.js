@@ -330,13 +330,11 @@ function onDrop(e) {
   const src = blocks[state.dragSrcIndex];
   const tgt = blocks[targetIndex];
 
-  if (state.dragSrcIndex < targetIndex) {
-    zone.insertBefore(src, tgt.nextSibling);
-    zone.insertBefore(tgt, blocks[state.dragSrcIndex]);
-  } else {
-    zone.insertBefore(src, tgt);
-    zone.insertBefore(tgt, blocks[state.dragSrcIndex + 1]);
-  }
+  const placeholder = document.createElement("div");
+  zone.insertBefore(placeholder, src);
+  zone.insertBefore(src, tgt);
+  zone.insertBefore(tgt, placeholder);
+  placeholder.remove();
 
   [...zone.querySelectorAll(".puzzle-block")].forEach(
     (b, i) => (b.dataset.index = i),
