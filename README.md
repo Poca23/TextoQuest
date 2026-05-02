@@ -63,9 +63,19 @@ Un badge est attribué selon le nombre d'indices collectés :
 
 ```
 enqueteur-du-recit/
-├── index.html      # Structure des écrans
-├── style.css       # Mise en page, thème, responsive
-└── app.js          # Données + logique applicative
+├── index.html          # Structure des écrans
+├── style.css           # Mise en page, thème, responsive
+├── app.js              # Données + logique applicative
+├── manifest.json       # Configuration PWA
+├── sw.js               # Service Worker (cache offline)
+└── assets/
+    ├── favicon/        # Icônes navigateur & PWA
+    │   ├── favicon-32x32.png
+    │   ├── android-chrome-192x192.png
+    │   └── android-chrome-512x512.png
+    ├── logo/
+    │   └── logo_TextoQuest.png
+    └── TextoQuest.png  # Image de fond
 ```
 
 > Le projet est intentionnellement mono-répertoire, sans bundler ni framework, pour faciliter le déploiement et la maintenance par un non-développeur.
@@ -85,6 +95,8 @@ enqueteur-du-recit/
 │  STATE                              │  ← État global de la session
 │  puzzleOrder · currentClue          │
 │  earnedStamps · attempts            │
+│  dragSrcIndex · touchSrcIndex       │
+│  touchClone                         │
 ├─────────────────────────────────────┤
 │  HELPERS + APP CONTROLLER           │  ← Logique et rendu
 │  buildPuzzle · submitClue           │
@@ -124,7 +136,21 @@ Tentative 3 → Surlignage automatique des passages-clés dans le texte
 
 ### Drag & Drop (puzzle)
 
-Implémenté en JavaScript natif (`dragstart`, `dragover`, `drop`, `dragend`). L'état de l'ordre est conservé dans `state.puzzleOrder` (tableau d'ids).
+Implémenté en JavaScript natif avec **double support** :
+
+| Interaction  | Événements utilisés                           |
+| ------------ | --------------------------------------------- |
+| 🖱️ Souris/PC | `dragstart` · `dragover` · `drop` · `dragend` |
+| 👆 Tactile   | `touchstart` · `touchmove` · `touchend`       |
+
+L'état de l'ordre est conservé dans `state.puzzleOrder` (tableau d'ids). Un **clone visuel** suit le doigt pendant le glisser tactile pour un retour visuel immédiat.
+
+### PWA (Progressive Web App)
+
+Le projet est installable sur mobile et fonctionne **hors ligne** grâce à :
+
+- `manifest.json` — métadonnées d'installation (nom, icônes, couleurs)
+- `sw.js` — Service Worker gérant le cache des ressources statiques
 
 ---
 
@@ -147,6 +173,10 @@ Les 6 indices suivent une montée en complexité cognitive :
 
 Le texte reste accessible dans un panneau latéral scrollable **pendant toute la durée de l'exercice**, favorisant l'aller-retour entre lecture et réponse.
 
+### Suivi de la progression
+
+Un système de **tampons** (stamps) visualise en temps réel le nombre d'indices collectés, renforçant la motivation de l'élève au fil du parcours.
+
 ---
 
 ## 6. Personnalisation & extensibilité
@@ -163,7 +193,7 @@ const STORY_HTML = `<p>Ton nouveau texte ici…</p>`;
 
 ```js
 {
-  id: 6,               // doit correspondre à sa position correcte
+  id: 6,             // doit correspondre à sa position correcte
   label: "Titre du bloc",
   text:  "Résumé affiché à l'élève."
 }
@@ -204,7 +234,7 @@ const STORY_HTML = `<p>Ton nouveau texte ici…</p>`;
 
 Aucun serveur, aucune installation requise.
 
-### Avec un serveur local (recommandé pour éviter les restrictions navigateur)
+### Avec un serveur local (recommandé pour activer le Service Worker)
 
 ```bash
 # Python 3
@@ -215,6 +245,8 @@ npx serve .
 ```
 
 Puis ouvrir `http://localhost:8000` dans le navigateur.
+
+> ⚠️ Le Service Worker (`sw.js`) et les fonctionnalités PWA nécessitent un contexte **HTTPS ou localhost** pour s'activer.
 
 ### Déploiement
 
@@ -236,7 +268,7 @@ Compatible avec tout hébergement de fichiers statiques :
 | 🏢 **Entreprise**       | CND - Web is Yours |
 | 📅 **Date de création** | Mai 2026           |
 
-> Projet conçu et développé par **CND - Web is Yours**.
+> Projet conçu et développé par **CND - Web is Yours**.  
 > Pour toute question, demande d'adaptation ou de nouveau module pédagogique, contactez Claire Naudin.
 
 ---
