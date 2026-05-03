@@ -473,6 +473,9 @@ mark {
   h1 {
     font-size: 1.4rem;
   }
+  .screen {
+    padding-top: 4rem;
+  }
 }
 @media (max-width: 480px) {
   .screen {
@@ -481,4 +484,12 @@ mark {
   .result-card {
     padding: 1.5rem 1rem;
   }
+}
+
+/* ── BACK LINK ────────────────────────────────────── */
+.back-link {
+  position: relative;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
 }
