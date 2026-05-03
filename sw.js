@@ -18,6 +18,11 @@ const FILES = [
   "./stories/story-1/style.css",
   "./stories/story-1/bg.png",
   "./stories/story-1/cover.png",
+  // Story 2
+  "./stories/story-2/story.js",
+  "./stories/story-2/style.css",
+  "./stories/story-2/bg.png",
+  "./stories/story-2/cover.png",
   // Story 3
   "./stories/story-3/story.js",
   "./stories/story-3/style.css",
