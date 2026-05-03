@@ -1,27 +1,40 @@
-const CACHE = "textoquest-v2";
+const CACHE = "textoquest-v3";
 const FILES = [
+  // Pages
   "./index.html",
   "./game.html",
+
+  // Styles & scripts globaux
   "./style.css",
   "./core.js",
   "./manifest.json",
+
   // Assets globaux
+  "./assets/index-library.css",
+  "./assets/library.png",
   "./assets/logo/logo_TextoQuest.png",
-  // Favicon
+
+  // Favicons
   "./assets/favicon/android-chrome-192x192.png",
   "./assets/favicon/android-chrome-512x512.png",
+  "./assets/favicon/apple-touch-icon.png",
+  "./assets/favicon/favicon-16x16.png",
+  "./assets/favicon/favicon-32x32.png",
   "./assets/favicon/favicon.ico",
   "./assets/favicon/favicon_TextoQuest.png",
+
   // Story 1
   "./stories/story-1/story.js",
   "./stories/story-1/style.css",
   "./stories/story-1/bg.png",
   "./stories/story-1/cover.png",
+
   // Story 2
   "./stories/story-2/story.js",
   "./stories/story-2/style.css",
   "./stories/story-2/bg.png",
   "./stories/story-2/cover.png",
+
   // Story 3
   "./stories/story-3/story.js",
   "./stories/story-3/style.css",
