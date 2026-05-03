@@ -24,12 +24,12 @@
 }
 
 body {
-  background: var(--story-bg, url("assets/TextoQuest.png")) center/cover
-    no-repeat fixed;
+  background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   min-height: 100vh;
 }
+
 body::before {
   content: "";
   position: fixed;

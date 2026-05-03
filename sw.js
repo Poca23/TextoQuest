@@ -6,7 +6,6 @@ const FILES = [
   "./core.js",
   "./manifest.json",
   // Assets globaux
-  "./assets/TextoQuest.png",
   "./assets/logo/logo_TextoQuest.png",
   // Favicon
   "./assets/favicon/android-chrome-192x192.png",
