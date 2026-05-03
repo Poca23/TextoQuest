@@ -1,0 +1,6 @@
+:root {
+  --border: #c47a2a;
+  --accent: #e8943a;
+  --accent2: #f0b855;
+}
+/* Le fond est appliqué via story.background dans core.js — rien d'autre à faire. */

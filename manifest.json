@@ -1,5 +1,5 @@
 {
-    "name": "L'Enquêteur du Récit",
+    "name": "TextoQuest",
     "short_name": "TextoQuest",
     "start_url": "./index.html",
     "display": "standalone",

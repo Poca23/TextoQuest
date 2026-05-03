@@ -17,16 +17,16 @@
 
 ## 1. Présentation
 
-**L'Enquêteur du Récit** est une application web pédagogique interactive destinée aux élèves de collège (cycle 3–4). Elle propose un parcours de lecture en deux phases autour d'un extrait littéraire.
+**TextoQuest** est une application web pédagogique interactive destinée aux élèves de collège (cycle 3–4). Elle propose un parcours de lecture en deux phases autour d'un extrait littéraire.
 
-|                     |                                                         |
-| ------------------- | ------------------------------------------------------- |
-| 📚 **Texte**        | _L'Épreuve Cachée_ – extrait d'un roman jeunesse fictif |
-| 🎯 **Objectif**     | Comprendre, analyser et interroger un texte narratif    |
-| 👤 **Public cible** | Élèves de 10 à 14 ans                                   |
-| 🛠️ **Technologies** | HTML · CSS · JavaScript vanilla                         |
-| 📦 **Dépendances**  | Aucune                                                  |
-| 📅 **Version**      | Mai 2026                                                |
+|                     |                                                      |
+| ------------------- | ---------------------------------------------------- |
+| 📚 **Histoires**    | Plusieurs récits de niveaux 1 à 3                    |
+| 🎯 **Objectif**     | Comprendre, analyser et interroger un texte narratif |
+| 👤 **Public cible** | Élèves de 10 à 14 ans                                |
+| 🛠️ **Technologies** | HTML · CSS · JavaScript vanilla                      |
+| 📦 **Dépendances**  | Aucune                                               |
+| 📅 **Version**      | Mai 2026                                             |
 
 ### Parcours de l'élève
 
@@ -62,20 +62,17 @@ Un badge est attribué selon le nombre d'indices collectés :
 ## 3. Structure du projet
 
 ```
-enqueteur-du-recit/
-├── index.html          # Structure des écrans
-├── style.css           # Mise en page, thème, responsive
-├── app.js              # Données + logique applicative
+textoquest/
+├── index.html          # Accueil – choix de l'histoire
+├── game.html           # Moteur de jeu
+├── core.js             # Logique applicative
+├── style.css           # Thème global
 ├── manifest.json       # Configuration PWA
 ├── sw.js               # Service Worker (cache offline)
-└── assets/
-    ├── favicon/        # Icônes navigateur & PWA
-    │   ├── favicon-32x32.png
-    │   ├── android-chrome-192x192.png
-    │   └── android-chrome-512x512.png
-    ├── logo/
-    │   └── logo_TextoQuest.png
-    └── TextoQuest.png  # Image de fond
+├── assets/             # Logo, favicon, image de fond
+└── stories/
+    ├── story-1/        # La Forêt des Murmures (niveau 1)
+    └── story-3/        # L'Épreuve Cachée (niveau 3)
 ```
 
 > Le projet est intentionnellement mono-répertoire, sans bundler ni framework, pour faciliter le déploiement et la maintenance par un non-développeur.
@@ -84,7 +81,7 @@ enqueteur-du-recit/
 
 ## 4. Architecture technique
 
-### `app.js` — trois zones distinctes
+### `core.js` — trois zones distinctes
 
 ```
 ┌─────────────────────────────────────┐
@@ -109,7 +106,7 @@ enqueteur-du-recit/
 Chaque vue est un `<div class="screen">`. La fonction `showScreen(id)` active uniquement l'écran ciblé via la classe `.active`.
 
 ```
-screen-intro → screen-reading → screen-puzzle → screen-clues → screen-result
+index.html → game.html → screen-intro → screen-reading → screen-phase → screen-result
 ```
 
 ### Validation des réponses

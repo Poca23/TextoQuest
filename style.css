@@ -24,13 +24,12 @@
 }
 
 body {
-  background: url("assets/TextoQuest.png") center center / cover no-repeat fixed;
+  background: var(--story-bg, url("assets/TextoQuest.png")) center/cover
+    no-repeat fixed;
   color: var(--text);
   font-family: var(--font-body);
   min-height: 100vh;
 }
-
-/* overlay sombre pour lisibilité */
 body::before {
   content: "";
   position: fixed;
@@ -59,56 +58,17 @@ body::before {
   align-items: flex-start;
 }
 
-/* ── CARDS / PANELS ───────────────────────────────── */
-.intro-card,
-.result-card,
-.text-panel,
-.reading-text-panel,
-.reading-side,
-.puzzle-panel,
-.clues-panel {
+/* ── CARDS ────────────────────────────────────────── */
+.card {
   background: var(--card);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   padding: 1.5rem;
 }
 
-/* ── INTRO ────────────────────────────────────────── */
-.intro-card {
-  max-width: 480px;
-  width: 100%;
-  text-align: center;
-  padding: 2.5rem 2rem;
-  border-color: var(--accent);
-}
-.intro-icon {
-  font-size: 4.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.intro-logo {
-  height: 160px;
-  width: auto;
-  margin-bottom: 0.8rem;
-}
-
-.intro-logo-wrap {
-  max-width: 380px;
-  width: 100%;
-  height: 70px;
-  overflow: hidden;
-  margin: 0 auto 0.8rem;
-}
-
-.intro-logo-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+/* ── TYPOGRAPHY ───────────────────────────────────── */
 h1,
 h2 {
   font-family: var(--font-title);
@@ -122,21 +82,20 @@ h2 {
   font-size: 1.15rem;
   margin-bottom: 1rem;
 }
-
 .subtitle {
   color: var(--accent);
   font-size: 1rem;
   margin-bottom: 1rem;
   font-style: italic;
 }
-.intro-text {
+.muted {
   color: var(--muted);
+  font-size: 0.9rem;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
 }
 
 /* ── BUTTONS ──────────────────────────────────────── */
-.btn-primary {
+.btn {
   background: linear-gradient(135deg, #b85a10, #e8943a);
   color: #fff;
   border: none;
@@ -145,26 +104,41 @@ h2 {
   font-size: 1rem;
   cursor: pointer;
   font-family: var(--font-body);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   transition:
     opacity 0.2s,
     transform 0.1s;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
-.btn-primary:hover {
+.btn:hover {
   opacity: 0.88;
   transform: translateY(-1px);
 }
-.btn-primary:active {
+.btn:active {
   transform: translateY(0);
+}
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.btn-ghost:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
 }
 .mt {
   margin-top: 1rem;
 }
 
 /* ── LAYOUTS ──────────────────────────────────────── */
-.reading-layout,
-.puzzle-layout,
-.clues-layout {
+.two-col {
   display: grid;
   gap: 1.5rem;
   width: 100%;
@@ -173,7 +147,7 @@ h2 {
   align-items: start;
   grid-template-columns: 1fr 1fr;
 }
-.reading-layout {
+.two-col.wide {
   grid-template-columns: 2fr 1fr;
 }
 
@@ -197,72 +171,18 @@ h2 {
   font-style: italic;
   color: var(--muted);
 }
-
-/* scrollbar discrète */
 .story-text::-webkit-scrollbar {
   width: 5px;
-}
-.story-text::-webkit-scrollbar-track {
-  background: transparent;
 }
 .story-text::-webkit-scrollbar-thumb {
   background: var(--border);
   border-radius: 4px;
 }
-
 mark {
   background: #f0b85588;
   border-radius: 3px;
   padding: 0 2px;
   color: #fff;
-}
-
-/* ── PUZZLE ───────────────────────────────────────── */
-.instructions {
-  color: var(--muted);
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-.puzzle-zone {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  min-height: 200px;
-}
-
-.puzzle-block {
-  background: rgba(20, 14, 6, 0.75);
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 0.8rem 1rem;
-  cursor: grab;
-  user-select: none;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text);
-  transition:
-    box-shadow 0.2s,
-    transform 0.15s;
-}
-.puzzle-block:active {
-  cursor: grabbing;
-}
-.puzzle-block.dragging {
-  opacity: 0.45;
-  transform: scale(1.02);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-}
-.puzzle-block.drag-over {
-  border-color: var(--accent2);
-  background: rgba(200, 100, 20, 0.2);
-}
-.puzzle-block .block-label {
-  font-weight: bold;
-  color: var(--accent2);
-  font-size: 0.78rem;
-  margin-bottom: 0.3rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 /* ── FEEDBACK ─────────────────────────────────────── */
@@ -287,11 +207,108 @@ mark {
   display: none;
 }
 
-/* ── CLUES ────────────────────────────────────────── */
-.clues-header {
-  margin-bottom: 1rem;
+/* ── PUZZLE BLOCKS ────────────────────────────────── */
+.puzzle-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 200px;
+}
+.puzzle-block {
+  background: rgba(20, 14, 6, 0.75);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  cursor: grab;
+  user-select: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+  transition:
+    box-shadow 0.2s,
+    transform 0.15s;
+}
+.puzzle-block:active {
+  cursor: grabbing;
+}
+.puzzle-block.dragging {
+  opacity: 0.45;
+  transform: scale(1.02);
+}
+.puzzle-block.drag-over {
+  border-color: var(--accent2);
+  background: rgba(200, 100, 20, 0.2);
+}
+.block-label {
+  font-weight: bold;
+  color: var(--accent2);
+  font-size: 0.78rem;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
+/* ── QCM ──────────────────────────────────────────── */
+.qcm-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+.qcm-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: rgba(20, 14, 6, 0.75);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text);
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.qcm-option:hover {
+  border-color: var(--accent);
+}
+.qcm-option.selected {
+  border-color: var(--accent2);
+  background: rgba(200, 100, 20, 0.2);
+}
+.qcm-option.correct {
+  border-color: var(--success);
+  background: rgba(60, 110, 60, 0.25);
+}
+.qcm-option.wrong {
+  border-color: var(--error);
+  background: rgba(120, 20, 20, 0.25);
+}
+.qcm-option input {
+  accent-color: var(--accent2);
+}
+
+/* ── FREE TEXT ────────────────────────────────────── */
+.clue-answer {
+  width: 100%;
+  min-height: 100px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  background: rgba(10, 8, 4, 0.7);
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.clue-answer:focus {
+  outline: none;
+  border-color: var(--accent2);
+}
+
+/* ── STAMPS ───────────────────────────────────────── */
 .stamps-row {
   display: flex;
   flex-wrap: wrap;
@@ -301,7 +318,6 @@ mark {
 .stamps-row.centered {
   justify-content: center;
 }
-
 .stamp {
   width: 38px;
   height: 38px;
@@ -321,6 +337,7 @@ mark {
   border-color: var(--accent2);
 }
 
+/* ── CLUE CARD ────────────────────────────────────── */
 .clue-card {
   background: rgba(10, 8, 4, 0.6);
   border: 1.5px solid var(--border);
@@ -344,25 +361,6 @@ mark {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 0.8rem;
-  color: var(--text);
-}
-
-.clue-answer {
-  width: 100%;
-  min-height: 100px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 0.7rem;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--text);
-  background: rgba(10, 8, 4, 0.7);
-  resize: vertical;
-  transition: border-color 0.2s;
-}
-.clue-answer:focus {
-  outline: none;
-  border-color: var(--accent2);
 }
 
 /* ── RESULT ───────────────────────────────────────── */
@@ -382,21 +380,90 @@ mark {
   font-size: 0.95rem;
 }
 
+/* ── INDEX – STORY CARDS ──────────────────────────── */
+.index-wrap {
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem 1rem;
+}
+.index-logo {
+  display: block;
+  max-width: 320px;
+  margin: 0 auto 2rem;
+}
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem;
+}
+.story-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.4rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+}
+.story-card:hover {
+  border-color: var(--accent2);
+  transform: translateY(-2px);
+}
+.story-card .card-cover {
+  width: 100%;
+  aspect-ratio: 16/7;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.3rem;
+}
+.story-card .card-level {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  font-weight: bold;
+}
+.story-card .card-title {
+  font-family: var(--font-title);
+  color: var(--accent2);
+  font-size: 1.05rem;
+}
+.story-card .card-desc {
+  color: var(--muted);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+.level-dot {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.level-dot span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #555;
+}
+.level-dot span.on {
+  background: var(--accent2);
+}
+
 /* ── RESPONSIVE ───────────────────────────────────── */
 @media (max-width: 768px) {
-  .reading-layout,
-  .puzzle-layout,
-  .clues-layout {
+  .two-col,
+  .two-col.wide {
     grid-template-columns: 1fr;
   }
-
-  .text-panel,
-  .reading-text-panel {
+  .text-panel {
     order: 2;
   }
-  .reading-side,
-  .puzzle-panel,
-  .clues-panel {
+  .right-panel {
     order: 1;
   }
   .story-text,
@@ -407,12 +474,10 @@ mark {
     font-size: 1.4rem;
   }
 }
-
 @media (max-width: 480px) {
   .screen {
     padding: 1rem;
   }
-  .intro-card,
   .result-card {
     padding: 1.5rem 1rem;
   }

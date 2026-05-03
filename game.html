@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TextoQuest</title>
+    <link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Le style propre à l'histoire est injecté par core.js -->
+    <link rel="manifest" href="manifest.json" />
+</head>
+
+<body>
+
+    <!-- INTRO -->
+    <div id="screen-intro" class="screen active">
+        <div class="card"
+            style="max-width:480px;width:100%;text-align:center;padding:2.5rem 2rem;border-color:var(--accent)">
+            <img src="assets/logo/logo_TextoQuest.png" alt="TextoQuest"
+                style="max-width:260px;width:100%;margin-bottom:1rem;" />
+            <p id="intro-title" class="subtitle" style="font-size:1.2rem;font-weight:bold"></p>
+            <p id="intro-desc" class="muted" style="margin-bottom:1.5rem"></p>
+            <button class="btn" onclick="Core.startReading()">Commencer la mission</button>
+        </div>
+    </div>
+
+    <!-- LECTURE -->
+    <div id="screen-reading" class="screen">
+        <div class="two-col wide" style="padding-top:1.5rem">
+            <div class="card text-panel">
+                <h2>Le texte</h2>
+                <div id="story-text" class="story-text"></div>
+            </div>
+            <div class="card right-panel">
+                <h2>Ta mission</h2>
+                <p class="muted" style="margin-bottom:1.2rem">
+                    Lis bien le texte. Tu pourras le consulter à tout moment.
+                </p>
+                <button class="btn" onclick="Core.nextPhase()">J'ai lu →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHASE (puzzle / QCM / texte libre) -->
+    <div id="screen-phase" class="screen">
+        <div class="two-col" style="padding-top:1.5rem">
+
+            <div class="card text-panel">
+                <h2>Le texte</h2>
+                <div id="story-text-phase" class="story-text small"></div>
+            </div>
+
+            <div class="card right-panel">
+                <h2 id="phase-title"></h2>
+                <p id="phase-instructions" class="muted" style="margin-bottom:1rem"></p>
+
+                <div id="phase-feedback" class="feedback hidden"></div>
+
+                <!-- Puzzle -->
+                <div id="puzzle-zone" class="puzzle-zone" style="display:none"></div>
+
+                <!-- QCM -->
+                <div id="qcm-zone" style="display:none">
+                    <p id="qcm-question" class="clue-question"></p>
+                    <div id="qcm-options" class="qcm-options"></div>
+                </div>
+
+                <!-- Texte libre -->
+                <div id="freetext-zone" style="display:none">
+                    <div id="clue-header">
+                        <div id="stamps-row" class="stamps-row" style="margin-bottom:.8rem"></div>
+                        <div id="clue-number" class="clue-number"></div>
+                        <div id="clue-type" class="clue-type"></div>
+                        <div id="clue-question" class="clue-question"></div>
+                    </div>
+                    <div class="clue-card">
+                        <textarea id="clue-answer" class="clue-answer" placeholder="Écris ta réponse ici…"></textarea>
+                    </div>
+                </div>
+
+                <button id="phase-btn" class="btn mt" onclick="Core.validatePhase()">Valider</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RÉSULTAT -->
+    <div id="screen-result" class="screen">
+        <div class="card result-card">
+            <div id="result-icon" class="result-icon"></div>
+            <h1 id="result-title"></h1>
+            <p id="result-subtitle" class="subtitle"></p>
+            <div id="result-stamps" class="stamps-row centered"></div>
+            <p id="result-score" class="result-score"></p>
+            <div style="display:flex;gap:.8rem;justify-content:center;margin-top:1.2rem">
+                <button class="btn" onclick="Core.restart()">Recommencer</button>
+                <a class="btn-ghost" href="index.html">← Toutes les histoires</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="core.js"></script>
+    <script>
+        /* charge le story.js correspondant au paramètre ?story= */
+        const _sid = new URLSearchParams(location.search).get("story") || "story-3";
+        const _s = document.createElement("script");
+        _s.src = `stories/${_sid}/story.js`;
+        _s.onload = () => Core.init(STORY);
+        _s.onerror = () => { document.body.innerHTML = "<p style='color:#f08080;padding:2rem'>Histoire introuvable.</p>"; };
+        document.head.appendChild(_s);
+
+        if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+    </script>
+</body>
+
+</html>
