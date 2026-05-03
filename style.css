@@ -391,6 +391,20 @@ mark {
   max-width: 320px;
   margin: 0 auto 2rem;
 }
+
+.intro-logo-wrap {
+  max-width: 380px;
+  width: 100%;
+  height: 70px;
+  overflow: hidden;
+  margin: 0 auto 0.8rem;
+}
+.intro-logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .stories-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
