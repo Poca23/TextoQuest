@@ -2,6 +2,10 @@ const Core = (() => {
   // ── état ────────────────────────────────────────────
   let story, phaseIndex, score, attempts, dragSrc;
 
+  // ── touch state (module-level, listeners attachés une seule fois) ──
+  let _touchSrc = null,
+    _touchClone = null;
+
   // ── utilitaires ─────────────────────────────────────
   const $ = (id) => document.getElementById(id);
   const show = (id) => {
@@ -17,7 +21,6 @@ const Core = (() => {
     score = 0;
     attempts = 0;
 
-    /* fond + style propre à l'histoire */
     if (s.background)
       document.body.style.background = `url("${s.background}") center/cover no-repeat fixed`;
 
@@ -26,14 +29,10 @@ const Core = (() => {
     link.href = `stories/${s.id}/style.css`;
     document.head.appendChild(link);
 
-    /* titre onglet */
     document.title = s.title + " – TextoQuest";
-
-    /* intro */
     $("intro-title").textContent = s.title;
     $("intro-desc").textContent = s.description;
 
-    /* injecter le texte partout */
     ["story-text", "story-text-phase"].forEach((id) => {
       const el = $(id);
       if (el) el.innerHTML = s.text;
@@ -56,12 +55,10 @@ const Core = (() => {
 
   // ── rendu d'une phase ────────────────────────────────
   function _renderPhase(phase) {
-    /* reset zones */
     ["puzzle-zone", "qcm-zone", "freetext-zone"].forEach((id) => {
       $(id).style.display = "none";
     });
     _hideFeedback("phase-feedback");
-
     $("phase-title").textContent = phase.title || "";
     $("phase-instructions").textContent = phase.instructions || "";
 
@@ -99,12 +96,9 @@ const Core = (() => {
     const zone = $("puzzle-zone");
     zone.style.display = "flex";
     zone.innerHTML = "";
-
-    /* mélange */
     const shuffled = [...phase.blocks].sort(() => Math.random() - 0.5);
     shuffled.forEach((b, i) => zone.appendChild(_makeBlock(b, i)));
     _bindDrag();
-    _bindTouch();
   }
 
   function _makeBlock(b, i) {
@@ -138,87 +132,78 @@ const Core = (() => {
       el.addEventListener("drop", (e) => {
         e.preventDefault();
         if (dragSrc && dragSrc !== el) {
-          const allBlocks = [...zone.querySelectorAll(".puzzle-block")];
-          const srcI = allBlocks.indexOf(dragSrc);
-          const tgtI = allBlocks.indexOf(el);
-          if (srcI < tgtI) zone.insertBefore(dragSrc, el.nextSibling);
+          const all = [...zone.querySelectorAll(".puzzle-block")];
+          if (all.indexOf(dragSrc) < all.indexOf(el))
+            zone.insertBefore(dragSrc, el.nextSibling);
           else zone.insertBefore(dragSrc, el);
         }
         el.classList.remove("drag-over");
       });
+
+      // ── touchstart sur chaque bloc ──
+      el.addEventListener(
+        "touchstart",
+        (e) => {
+          _touchSrc = el;
+          el.classList.add("dragging");
+          const t = e.touches[0];
+          _touchClone = el.cloneNode(true);
+          Object.assign(_touchClone.style, {
+            position: "fixed",
+            zIndex: 9999,
+            opacity: 0.85,
+            pointerEvents: "none",
+            width: el.offsetWidth + "px",
+            left: t.clientX - el.offsetWidth / 2 + "px",
+            top: t.clientY - el.offsetHeight / 2 + "px",
+          });
+          document.body.appendChild(_touchClone);
+        },
+        { passive: true },
+      );
     });
   }
 
-  /* ── tactile ── */
-  function _bindTouch() {
-    let touchSrc = null,
-      clone = null;
+  // ── listeners document : attachés UNE SEULE FOIS au chargement ──
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!_touchClone) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      _touchClone.style.left = t.clientX - _touchClone.offsetWidth / 2 + "px";
+      _touchClone.style.top = t.clientY - _touchClone.offsetHeight / 2 + "px";
+      document
+        .querySelectorAll(".puzzle-block")
+        .forEach((b) => b.classList.remove("drag-over"));
+      const under = _blockUnderTouch(t);
+      if (under && under !== _touchSrc) under.classList.add("drag-over");
+    },
+    { passive: false },
+  );
 
-    $("puzzle-zone")
-      .querySelectorAll(".puzzle-block")
-      .forEach((el) => {
-        el.addEventListener(
-          "touchstart",
-          (e) => {
-            touchSrc = el;
-            el.classList.add("dragging");
-            const t = e.touches[0];
-            clone = el.cloneNode(true);
-            Object.assign(clone.style, {
-              position: "fixed",
-              zIndex: 9999,
-              opacity: 0.85,
-              pointerEvents: "none",
-              width: el.offsetWidth + "px",
-              left: t.clientX - el.offsetWidth / 2 + "px",
-              top: t.clientY - el.offsetHeight / 2 + "px",
-            });
-            document.body.appendChild(clone);
-          },
-          { passive: true },
-        );
-      });
-
-    document.addEventListener(
-      "touchmove",
-      (e) => {
-        if (!clone) return;
-        e.preventDefault();
-        const t = e.touches[0];
-        clone.style.left = t.clientX - clone.offsetWidth / 2 + "px";
-        clone.style.top = t.clientY - clone.offsetHeight / 2 + "px";
-        document
-          .querySelectorAll(".puzzle-block")
-          .forEach((b) => b.classList.remove("drag-over"));
-        const under = _blockUnderTouch(t);
-        if (under && under !== touchSrc) under.classList.add("drag-over");
-      },
-      { passive: false },
-    );
-
-    document.addEventListener(
-      "touchend",
-      (e) => {
-        if (!clone) return;
-        const t = e.changedTouches[0];
-        const under = _blockUnderTouch(t);
-        if (under && under !== touchSrc) {
-          const zone = $("puzzle-zone");
-          const all = [...zone.querySelectorAll(".puzzle-block")];
-          if (all.indexOf(touchSrc) < all.indexOf(under))
-            zone.insertBefore(touchSrc, under.nextSibling);
-          else zone.insertBefore(touchSrc, under);
-        }
-        document
-          .querySelectorAll(".puzzle-block")
-          .forEach((b) => b.classList.remove("dragging", "drag-over"));
-        clone.remove();
-        clone = null;
-        touchSrc = null;
-      },
-      { passive: true },
-    );
-  }
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      if (!_touchClone) return;
+      const t = e.changedTouches[0];
+      const under = _blockUnderTouch(t);
+      if (under && under !== _touchSrc) {
+        const zone = $("puzzle-zone");
+        const all = [...zone.querySelectorAll(".puzzle-block")];
+        if (all.indexOf(_touchSrc) < all.indexOf(under))
+          zone.insertBefore(_touchSrc, under.nextSibling);
+        else zone.insertBefore(_touchSrc, under);
+      }
+      document
+        .querySelectorAll(".puzzle-block")
+        .forEach((b) => b.classList.remove("dragging", "drag-over"));
+      _touchClone.remove();
+      _touchClone = null;
+      _touchSrc = null;
+    },
+    { passive: true },
+  );
 
   function _blockUnderTouch(t) {
     return [...document.querySelectorAll(".puzzle-block")].find((b) => {
@@ -238,7 +223,6 @@ const Core = (() => {
     );
     const correct = phase.blocks.map((b) => b.id);
     const ok = order.every((v, i) => v === correct[i]);
-
     if (ok) {
       _feedback(
         "phase-feedback",
@@ -256,26 +240,23 @@ const Core = (() => {
   }
 
   // ════════════════════════════════════════════════════
-  //  QCM (single & multiple)
+  //  QCM
   // ════════════════════════════════════════════════════
   function _renderQCM(phase) {
     $("qcm-zone").style.display = "block";
     $("qcm-question").textContent = phase.question;
-
     const container = $("qcm-options");
     container.innerHTML = "";
     const type = phase.multiple ? "checkbox" : "radio";
-
     phase.options.forEach((opt, i) => {
       const label = document.createElement("label");
       label.className = "qcm-option";
       label.innerHTML = `<input type="${type}" name="qcm" value="${i}" />${opt.text}`;
       label.addEventListener("click", () => {
-        if (!phase.multiple) {
+        if (!phase.multiple)
           container
             .querySelectorAll(".qcm-option")
             .forEach((l) => l.classList.remove("selected"));
-        }
         label.classList.toggle(
           "selected",
           label.querySelector("input").checked,
@@ -293,21 +274,18 @@ const Core = (() => {
       _feedback("phase-feedback", "error", "Sélectionne au moins une réponse.");
       return;
     }
-
     const correct = phase.options
       .map((o, i) => (o.correct ? i : -1))
       .filter((i) => i >= 0);
     const ok =
       selected.length === correct.length &&
       selected.every((v) => correct.includes(v));
-
     $("qcm-options")
       .querySelectorAll(".qcm-option")
       .forEach((l, i) => {
         if (phase.options[i].correct) l.classList.add("correct");
         else if (l.classList.contains("selected")) l.classList.add("wrong");
       });
-
     if (ok) {
       _feedback("phase-feedback", "success", "✅ Bonne réponse !");
       score++;
@@ -327,8 +305,6 @@ const Core = (() => {
   // ════════════════════════════════════════════════════
   function _renderFreeText(phase) {
     $("freetext-zone").style.display = "block";
-
-    /* stamps */
     _buildStamps(phase.clues.length);
     _showClue(phase, 0);
     phase._current = 0;
@@ -358,13 +334,11 @@ const Core = (() => {
     }
 
     const { ok, missing } = _matchKeywords(answer, c.keywords);
-
     if (ok) {
       _clearHighlights();
       score++;
       _buildStamps(phase.clues.length, phase._current + 1);
       _feedback("phase-feedback", "success", "🔎 Indice collecté !");
-
       if (phase._current < phase.clues.length - 1) {
         setTimeout(() => {
           phase._current++;
@@ -442,7 +416,6 @@ const Core = (() => {
     $("result-subtitle").textContent = badge.subtitle;
     $("result-score").textContent = `${score} indice(s) collecté(s)`;
 
-    /* rebuild stamps dans result */
     const freePhase = story.phases.find((p) => p.type === "free-text");
     if (freePhase) {
       const total = freePhase.clues.length;
