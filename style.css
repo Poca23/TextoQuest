@@ -229,7 +229,6 @@ mark {
 }
 .puzzle-block.dragging {
   opacity: 0.85;
-  transform: scale(1.02);
   position: relative;
   z-index: 999;
 }

@@ -6,7 +6,9 @@ const Core = (() => {
   let _touchSrc = null,
     _touchOrigin = null,
     _touchOffX = 0,
-    _touchOffY = 0;
+    _touchOffY = 0,
+    _blockStartX = 0,
+    _blockStartY = 0;
 
   // ── utilitaires ─────────────────────────────────────
   const $ = (id) => document.getElementById(id);
@@ -138,7 +140,7 @@ const Core = (() => {
         el.classList.remove("drag-over");
       });
 
-      // ── tactile ──
+      // ── tactile : start uniquement ici ──
       el.addEventListener(
         "touchstart",
         (e) => {
@@ -147,9 +149,10 @@ const Core = (() => {
           _touchSrc = el;
           _touchOrigin = el.nextSibling;
           const r = el.getBoundingClientRect();
-          const t = e.touches[0];
-          _touchOffX = t.clientX - r.left - r.width / 2;
-          _touchOffY = t.clientY - r.top - r.height / 2;
+          _touchOffX = e.touches[0].clientX - r.left;
+          _touchOffY = e.touches[0].clientY - r.top;
+          _blockStartX = r.left; // position initiale du bloc dans la page
+          _blockStartY = r.top;
           el.classList.add("dragging");
         },
         { passive: false },
@@ -164,18 +167,16 @@ const Core = (() => {
       if (!_touchSrc) return;
       e.preventDefault();
       const t = e.touches[0];
-      const r = _touchSrc.getBoundingClientRect();
-      const zone = $("puzzle-zone");
-      if (!zone) return;
-      const zr = zone.getBoundingClientRect();
-      // déplace le bloc réel par transform
-      _touchSrc.style.transform = `translate(${t.clientX - r.left - r.width / 2 - _touchOffX}px, ${t.clientY - r.top - r.height / 2 - _touchOffY}px)`;
+      // déplacement du doigt depuis le touchstart
+      const dx = t.clientX - _touchOffX - _blockStartX;
+      const dy = t.clientY - _touchOffY - _blockStartY;
+      _touchSrc.style.transform = `translate(${dx}px, ${dy}px)`;
       _touchSrc.style.zIndex = "999";
-      zone
+      $("puzzle-zone")
         .querySelectorAll(".puzzle-block")
         .forEach((b) => b.classList.remove("drag-over"));
       const under = _blockUnderTouch(t);
-      if (under && under !== _touchSrc) under.classList.add("drag-over");
+      if (under) under.classList.add("drag-over");
     },
     { passive: false },
   );
@@ -184,28 +185,34 @@ const Core = (() => {
     "touchend",
     (e) => {
       if (!_touchSrc) return;
-      // reset visuel AVANT tout
       _touchSrc.style.transform = "";
       _touchSrc.style.zIndex = "";
-
       const t = e.changedTouches[0];
       const under = _blockUnderTouch(t);
       const zone = $("puzzle-zone");
-
-      if (under && under !== _touchSrc) {
-        _swapBlocks(zone, _touchSrc, under);
-      } else if (zone) {
-        zone.insertBefore(_touchSrc, _touchOrigin); // retour à la place d'origine
-      }
-
+      if (under) _swapBlocks(zone, _touchSrc, under);
+      else zone.insertBefore(_touchSrc, _touchOrigin);
       zone
         .querySelectorAll(".puzzle-block")
         .forEach((b) => b.classList.remove("dragging", "drag-over"));
-      _touchSrc = null;
-      _touchOrigin = null;
+      _touchSrc = _touchOrigin = null;
     },
     { passive: true },
   );
+
+  document.addEventListener("touchcancel", () => {
+    if (!_touchSrc) return;
+    _touchSrc.style.transform = "";
+    _touchSrc.style.zIndex = "";
+    const zone = $("puzzle-zone");
+    if (zone) {
+      zone.insertBefore(_touchSrc, _touchOrigin);
+      zone
+        .querySelectorAll(".puzzle-block")
+        .forEach((b) => b.classList.remove("dragging", "drag-over"));
+    }
+    _touchSrc = _touchOrigin = null;
+  });
 
   document.addEventListener("touchcancel", () => {
     if (!_touchSrc) return;
