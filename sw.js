@@ -1,4 +1,4 @@
-const CACHE = "textoquest-v3";
+const CACHE = "textoquest-v4";
 const FILES = [
   // Pages
   "./index.html",
@@ -11,6 +11,7 @@ const FILES = [
 
   // Assets globaux
   "./assets/index-library.css",
+  "./assets/responsive.css",
   "./assets/library.png",
   "./assets/logo/logo_TextoQuest.png",
 
@@ -23,28 +24,35 @@ const FILES = [
   "./assets/favicon/favicon.ico",
   "./assets/favicon/favicon_TextoQuest.png",
 
-  // Story 1
-  "./stories/story-1/story.js",
-  "./stories/story-1/style.css",
-  "./stories/story-1/bg.png",
-  "./stories/story-1/cover.png",
+  // Story 1 – La Forêt des Murmures
+  "./stories/story-1_La_Foret_des_Murmures/story.js",
+  "./stories/story-1_La_Foret_des_Murmures/style.css",
+  "./stories/story-1_La_Foret_des_Murmures/bg.png",
+  "./stories/story-1_La_Foret_des_Murmures/cover.png",
 
-  // Story 2
-  "./stories/story-2/story.js",
-  "./stories/story-2/style.css",
-  "./stories/story-2/bg.png",
-  "./stories/story-2/cover.png",
+  // Story 2 – Le Nain Grognon
+  "./stories/story-2_le_Nain_Grognon/story.js",
+  "./stories/story-2_le_Nain_Grognon/style.css",
+  "./stories/story-2_le_Nain_Grognon/bg.png",
+  "./stories/story-2_le_Nain_Grognon/cover.png",
 
-  // Story 3
-  "./stories/story-3/story.js",
-  "./stories/story-3/style.css",
-  "./stories/story-3/bg.png",
-  "./stories/story-3/cover.png",
+  // Story 3 – L'Hirondelle Blanche
+  "./stories/story-3_l_Hirondelle_Blanche/story.js",
+  "./stories/story-3_l_Hirondelle_Blanche/style.css",
+  "./stories/story-3_l_Hirondelle_Blanche/bg.png",
+  "./stories/story-3_l_Hirondelle_Blanche/cover.png",
+
+  // Story 4 – L'Épreuve Cachée
+  "./stories/story-4_l_Epreuve_cachee/story.js",
+  "./stories/story-4_l_Epreuve_cachee/style.css",
+  "./stories/story-4_l_Epreuve_cachee/bg.png",
+  "./stories/story-4_l_Epreuve_cachee/cover.png",
 ];
 
-self.addEventListener("install", (e) =>
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES))),
-);
+self.addEventListener("install", (e) => {
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)));
+  self.skipWaiting();
+});
 
 self.addEventListener("activate", (e) =>
   e.waitUntil(
@@ -54,7 +62,8 @@ self.addEventListener("activate", (e) =>
         Promise.all(
           keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)),
         ),
-      ),
+      )
+      .then(() => self.clients.claim()),
   ),
 );
 
