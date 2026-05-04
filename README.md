@@ -29,7 +29,7 @@ autour d'un extrait littéraire : puzzle narratif, QCM et questions à réponse 
 | 👤 **Public cible** | Élèves de 10 à 14 ans                                |
 | 🛠️ **Technologies** | HTML · CSS · JavaScript vanilla                      |
 | 📦 **Dépendances**  | Aucune                                               |
-| 📅 **Version**      | Mai 2026                                             |
+| 📅 **Version**      | v1.0 – Mai 2026                                      |
 
 ---
 
@@ -75,6 +75,7 @@ textoquest/
 ├── style.css # Thème global partagé
 ├── manifest.json # Configuration PWA
 ├── sw.js # Service Worker (cache offline)
+├── README.md
 │
 ├── assets/
 │ ├── favicon/ # Icônes navigateur & PWA
@@ -88,12 +89,13 @@ textoquest/
 │ ├── logo/
 │ │ └── logo_TextoQuest.png
 │ ├── index-library.css # Styles propres à la page d'accueil
+│ ├── responsive.css # Media queries globales
 │ └── library.png # Illustration de fond de l'accueil
 │
 └── stories/
 ├── story-1/ # La Forêt des Murmures (niveau 1)
 │ ├── story.js # Contenu complet de l'histoire
-│ ├── style.css # Surcharge de thème (couleurs, polices…)
+│ ├── style.css # Surcharge de thème (couleurs…)
 │ ├── bg.png # Image de fond
 │ └── cover.png # Vignette sur la page d'accueil
 ├── story-2/ # (niveau 2)
@@ -118,18 +120,20 @@ textoquest/
 │ ÉTAT DE SESSION │
 │ story · phaseIndex · score │
 │ attempts · dragSrc │
+│ \_touchSrc · \_touchOrigin │
+│ \_touchOffX/Y · \_blockStartX/Y │
 ├──────────────────────────────────────────────┤
 │ ROUTEUR D'ÉCRANS │
 │ show(id) → active/inactive sur .screen │
 ├──────────────────────────────────────────────┤
 │ MOTEUR DE PHASES (dispatch par type) │
-│ "drag-drop" → buildDragDrop() │
-│ "qcm" → buildQcm() │
-│ "free-text" → buildFreeText() │
+│ "drag-drop" → \_renderDragDrop() │
+│ "qcm" → \_renderQCM() │
+│ "free-text" → \_renderFreeText() │
 ├──────────────────────────────────────────────┤
 │ HELPERS TRANSVERSAUX │
-│ highlightHints() · showResult() │
-│ validateKeywords() · buildStamps() │
+│ highlightHints() · \_showResult() │
+│ \_matchKeywords() · \_buildStamps() │
 └──────────────────────────────────────────────┘
 
 ```
@@ -156,8 +160,7 @@ index.html
 `stories/<id>/story.js` correspondant, puis appelle `Core.init(STORY)`.
 
 ```js
-// game.html (extrait)
-const sid = new URLSearchParams(location.search).get("story") || "story-3";
+const sid = new URLSearchParams(location.search).get("story") || "story-1";
 const s = document.createElement("script");
 s.src = `stories/${sid}/story.js`;
 s.onload = () => Core.init(STORY);
@@ -194,22 +197,23 @@ Tentative 3 → surlignage automatique des passages-clés dans le texte
 | 🖱️ Souris / PC | `dragstart` · `dragover` · `drop` · `dragend` |
 | 👆 Tactile     | `touchstart` · `touchmove` · `touchend`       |
 
-Un **clone visuel** suit le doigt pendant le glisser tactile.  
-L'ordre courant est recalculé à chaque dépôt à partir des positions DOM.
+Le bloc glissé se déplace via `transform: translate()` calculé depuis sa
+**position initiale** (`_blockStartX/Y`) — sans clone, sans dérive.
+Les listeners `touchmove` et `touchend` sont attachés au `document` une
+seule fois pour garantir le nettoyage même si le doigt sort du bloc.
 
 ### PWA — fonctionnement hors ligne
 
-| Fichier         | Rôle                                       |
-| --------------- | ------------------------------------------ |
-| `manifest.json` | Métadonnées d'installation (nom, icônes…)  |
-| `sw.js`         | Cache toutes les ressources statiques (v2) |
+| Fichier         | Rôle                                      |
+| --------------- | ----------------------------------------- |
+| `manifest.json` | Métadonnées d'installation (nom, icônes…) |
+| `sw.js`         | Cache toutes les ressources statiques     |
 
 ---
 
 ## 5. Format d'une histoire (`story.js`)
 
-Chaque histoire expose une constante globale `STORY` avec la structure
-suivante :
+Chaque histoire expose une constante globale `STORY` :
 
 ```js
 const STORY = {
@@ -230,11 +234,11 @@ const STORY = {
       blocks: [
         { id: 0, label: "Le début", text: "Résumé du bloc 0." },
         { id: 1, label: "La découverte", text: "Résumé du bloc 1." },
-        // … les id doivent être des entiers consécutifs depuis 0
+        // … id consécutifs depuis 0
       ],
     },
 
-    // ── Type 2 : QCM (réponse unique ou multiple) ──
+    // ── Type 2 : QCM ───────────────────────────────
     {
       type: "qcm",
       title: "❓ Question",
@@ -247,7 +251,7 @@ const STORY = {
       ],
     },
 
-    // ── Type 3 : questions à réponse libre ─────────
+    // ── Type 3 : réponses libres ───────────────────
     {
       type: "free-text",
       title: "🕵️ Interroge le texte",
@@ -263,7 +267,6 @@ const STORY = {
           ],
           hints: ["entièrement blanche", "elle prit sa décision"],
         },
-        // …
       ],
     },
   ],
@@ -288,9 +291,6 @@ const STORY = {
 ## 6. Fonctionnement pédagogique
 
 ### Progression des questions (phase `free-text`)
-
-Les indices suivent une montée en complexité cognitive inspirée de la
-taxonomie de Bloom :
 
 | #   | Type                 | Compétence visée               |
 | --- | -------------------- | ------------------------------ |
@@ -317,7 +317,7 @@ indice collecté, renforçant la motivation de l'élève.
 
 1. Créer le dossier `stories/story-N/`
 2. Y placer `story.js`, `style.css`, `bg.png`, `cover.png`
-3. Référencer le dossier dans `sw.js` (liste `FILES`)
+3. Référencer les fichiers dans `sw.js` (liste `FILES`)
 4. L'histoire apparaît automatiquement sur la page d'accueil
 
 ### Modifier le texte
@@ -332,8 +332,7 @@ text: `<p>Ton nouveau texte ici…</p>`,
 { id: 4, label: "L'épilogue", text: "Résumé du bloc." }
 ```
 
-> ⚠️ Les `id` doivent être des entiers **consécutifs depuis `0`** pour que
-> la validation de l'ordre fonctionne correctement.
+> ⚠️ Les `id` doivent être des entiers **consécutifs depuis `0`**.
 
 ### Ajouter un indice (phase `free-text`)
 
@@ -342,10 +341,8 @@ text: `<p>Ton nouveau texte ici…</p>`,
   number:   "Indice 5 / 5",
   type:     "🔬 Analyse",
   question: "Ta question ici.",
-  keywords: [
-    { group: "NomDuGroupe", words: ["mot1", "mot2"] }
-  ],
-  hints: ["expression à surligner dans le texte"]
+  keywords: [{ group: "Groupe", words: ["mot1", "mot2"] }],
+  hints:    ["expression à surligner dans le texte"]
 }
 ```
 
@@ -355,10 +352,7 @@ text: `<p>Ton nouveau texte ici…</p>`,
 { min: 0, max: 1, icon: "🔎", title: "Titre", subtitle: "Sous-titre" }
 ```
 
-### Ajouter un style personnalisé à une histoire
-
-Éditer `stories/story-N/style.css` pour surcharger les variables CSS
-globales sans toucher à `style.css`.
+### Personnaliser le thème d'une histoire
 
 ```css
 /* stories/story-N/style.css */
@@ -376,28 +370,21 @@ globales sans toucher à `style.css`.
 ### En local (sans serveur)
 
 ```bash
-# Télécharger ou cloner le dossier, puis :
 open index.html        # macOS
 xdg-open index.html    # Linux
 start index.html       # Windows
 ```
 
-Aucune installation requise.
-
 ### Avec un serveur local (recommandé — active le Service Worker)
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js
-npx serve .
+python -m http.server 8000   # Python 3
+npx serve .                  # Node.js
 ```
 
 Ouvrir ensuite `http://localhost:8000`.
 
-> ⚠️ Le Service Worker et les fonctionnalités PWA nécessitent
-> **HTTPS ou `localhost`**.
+> ⚠️ Le Service Worker et les fonctionnalités PWA nécessitent **HTTPS ou `localhost`**.
 
 ### Déploiement statique
 
