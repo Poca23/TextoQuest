@@ -1,0 +1,87 @@
+/* ── RESPONSIVE.CSS ──────────────────────────────────────────────────────────
+   Fond plein écran, scroll, mobile portrait & paysage.
+   Source unique pour tout ce qui est viewport/responsive.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Fallback sombre si l'image de fond ne charge pas */
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+/* 2. Corps : hauteur dynamique + pas de scroll horizontal */
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-attachment: scroll; /* fixed cassé sur Safari iOS en paysage */
+}
+
+/* 3. Chaque écran occupe au minimum la hauteur réelle du viewport */
+.screen {
+  min-height: 100dvh;
+  padding-top: 3.5rem;
+}
+
+/* 4. Tablet/mobile portrait ≤ 768px */
+@media (max-width: 768px) {
+  .two-col,
+  .two-col.wide {
+    grid-template-columns: 1fr;
+  }
+  .text-panel {
+    order: 2;
+  }
+  .right-panel {
+    order: 1;
+  }
+  .story-text,
+  .story-text.small {
+    max-height: 35vh;
+  }
+  h1 {
+    font-size: 1.4rem;
+  }
+  .screen {
+    padding-top: 4rem;
+  }
+}
+.back-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+}
+
+/* 5. Petit mobile ≤ 480px */
+@media (max-width: 480px) {
+  .screen {
+    padding: 1rem;
+  }
+  .result-card {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* 6. Mobile portrait ≤ 640px : grille en colonne unique */
+@media (max-width: 640px) {
+  .stories-grid {
+    grid-template-columns: 1fr;
+  }
+  .index-wrap {
+    padding: 1.2rem;
+  }
+}
+
+/* 7. Mobile paysage : compact pour éviter les espaces vides */
+@media (max-height: 500px) and (orientation: landscape) {
+  .screen {
+    padding: 0.8rem;
+    align-items: flex-start;
+  }
+  .card {
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
+}

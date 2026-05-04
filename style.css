@@ -27,7 +27,6 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
-  min-height: 100vh;
 }
 
 body::before {
@@ -42,7 +41,6 @@ body::before {
 /* ── SCREENS ──────────────────────────────────────── */
 .screen {
   display: none;
-  min-height: 100vh;
   padding: 1.5rem;
   position: relative;
   z-index: 1;
@@ -466,44 +464,4 @@ mark {
 }
 .level-dot span.on {
   background: var(--accent2);
-}
-
-/* ── RESPONSIVE ───────────────────────────────────── */
-@media (max-width: 768px) {
-  .two-col,
-  .two-col.wide {
-    grid-template-columns: 1fr;
-  }
-  .text-panel {
-    order: 2;
-  }
-  .right-panel {
-    order: 1;
-  }
-  .story-text,
-  .story-text.small {
-    max-height: 35vh;
-  }
-  h1 {
-    font-size: 1.4rem;
-  }
-  .screen {
-    padding-top: 4rem;
-  }
-}
-@media (max-width: 480px) {
-  .screen {
-    padding: 1rem;
-  }
-  .result-card {
-    padding: 1.5rem 1rem;
-  }
-}
-
-/* ── BACK LINK ────────────────────────────────────── */
-.back-link {
-  position: relative;
-  top: 1rem;
-  left: 1rem;
-  z-index: 999;
 }
