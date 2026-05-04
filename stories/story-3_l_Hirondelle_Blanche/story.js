@@ -3,7 +3,7 @@ const STORY = {
   title: "L'Hirondelle Blanche",
   description:
     "Ta mission : lire le texte, reconstituer le voyage, puis collecter les indices comme un vrai détective.",
-  background: "stories/story-2/bg.png",
+  background: "stories/story-3_l_Hirondelle_Blanche/bg.png",
 
   text: `
     <p>Alba était différente des autres hirondelles. Là où ses frères et sœurs arboraient un plumage bleu-noir brillant, elle était entièrement blanche, d'un blanc laiteux presque lumineux. Une albinos, disaient les anciens du nid en baissant la voix.</p>

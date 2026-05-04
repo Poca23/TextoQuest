@@ -27,24 +27,32 @@
         /* ── REGISTRY : ajoute ici chaque nouvelle histoire ── */
         const STORIES = [
             {
-                id: "story-1",
+                id: "story-1_La_Foret_des_Murmures",
                 level: 1,
                 title: "La Forêt des Murmures",
                 desc: "Une aventure courte pour s'initier au jeu.",
-                cover: "stories/story-1/cover.png",
-            }, {
-                id: "story-2",
-                level: 2,
-                title: "L'Hirondelle Blanche",
-                desc: "Un voyage initiatique à la recherche d'une vraie famille.",
-                cover: "stories/story-2/cover.png",
+                cover: "stories/story-1_La_Foret_des_Murmures/cover.png",
             },
             {
-                id: "story-3",
+                id: "story-2_le_Nain_Grognon",
+                level: 2,
+                title: "Le Nain Grognon",
+                desc: "Un jeune nain découvre qu'à force de ronchonner, il passe à côté de la vie.",
+                cover: "stories/story-2_le_Nain_Grognon/cover.png",
+            },
+            {
+                id: "story-3_l_Hirondelle_Blanche",
                 level: 3,
+                title: "L'Hirondelle Blanche",
+                desc: "Un voyage initiatique à la recherche d'une vraie famille.",
+                cover: "stories/story-3_l_Hirondelle_Blanche/cover.png",
+            },
+            {
+                id: "story-4_l_Epreuve_cachee",
+                level: 4,
                 title: "L'Épreuve Cachée",
                 desc: "Une mission nocturne sur les toits de Kazan.",
-                cover: "stories/story-3/cover.png",
+                cover: "stories/story-4_l_Epreuve_cachee/cover.png",
             },
         ];
 
@@ -52,7 +60,7 @@
         const grid = document.getElementById("stories-grid");
 
         STORIES.sort((a, b) => a.level - b.level).forEach(s => {
-            const dots = [1, 2, 3].map(i =>
+            const dots = [1, 2, 3, 4].map(i =>
                 `<span class="${i <= s.level ? "on" : ""}"></span>`
             ).join("");
 

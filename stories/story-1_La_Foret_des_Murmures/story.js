@@ -2,7 +2,7 @@ const STORY = {
   id: "story-1",
   title: "La Forêt des Murmures",
   description: "Une aventure courte pour s'initier au jeu.",
-  background: "stories/story-1/bg.png",
+  background: "stories/story-1_La_Foret_des_Murmures/bg.png",
 
   text: `
     <p>Léa avait sept ans quand elle s'aventura seule dans la forêt derrière la maison.</p>

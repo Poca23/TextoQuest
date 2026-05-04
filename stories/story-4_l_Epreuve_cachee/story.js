@@ -3,7 +3,7 @@ const STORY = {
   title: "L'Épreuve Cachée",
   description:
     "Ta mission : lire le texte, reconstituer le récit, puis collecter tous les indices comme un vrai détective.",
-  background: "stories/story-3/bg.png",
+  background: "stories/story-4_l_Epreuve_cachee/bg.png",
 
   text: `
     <p>Kenji avait douze ans et c'était la première fois qu'on lui confiait une vraie mission. Seul. Sans maître, sans équipe. Juste lui, la nuit, et les toits mouillés du vieux quartier de Kazan.</p>
