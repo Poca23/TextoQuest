@@ -228,8 +228,10 @@ mark {
   cursor: grabbing;
 }
 .puzzle-block.dragging {
-  opacity: 0.45;
+  opacity: 0.85;
   transform: scale(1.02);
+  position: relative;
+  z-index: 999;
 }
 .puzzle-block.drag-over {
   border-color: var(--accent2);
