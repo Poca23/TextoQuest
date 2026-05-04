@@ -41,11 +41,13 @@ const Core = (() => {
       const el = $(id);
       if (el) el.innerHTML = s.text;
     });
+    history.replaceState(null, "", "#intro");
   }
 
   // ── navigation ───────────────────────────────────────
   function startReading() {
     show("screen-reading");
+    history.pushState(null, "", "#lecture");
   }
 
   function nextPhase() {
@@ -55,6 +57,7 @@ const Core = (() => {
     }
     _renderPhase(story.phases[phaseIndex]);
     show("screen-phase");
+    history.pushState(null, "", `#phase-${phaseIndex + 1}`);
   }
 
   // ── rendu d'une phase ────────────────────────────────
@@ -89,6 +92,7 @@ const Core = (() => {
       setTimeout(() => {
         _renderPhase(story.phases[phaseIndex]);
         _hideFeedback("phase-feedback");
+        history.pushState(null, "", `#phase-${phaseIndex + 1}`);
       }, 1200);
     }
   }
@@ -458,6 +462,7 @@ const Core = (() => {
       $("result-stamps").innerHTML = "";
     }
     show("screen-result");
+    history.pushState(null, "", "#resultat");
   }
 
   function _defaultBadges() {
