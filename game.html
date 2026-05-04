@@ -13,8 +13,10 @@
 
 <body>
 
-    <a href="index.html" class="btn-ghost back-link">← Revenir à la liste
-        des histoires</a>
+    <header class="site-header">
+        <a href="index.html" class="btn-ghost">← Revenir à la liste des histoires</a>
+    </header>
+
 
     <!-- INTRO -->
     <div id="screen-intro" class="screen active">
@@ -114,6 +116,13 @@
         document.head.appendChild(_s);
 
         if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+    </script>
+
+    <script>
+        const _hdr = document.querySelector('.site-header');
+        window.addEventListener('scroll', () => {
+            _hdr.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
     </script>
 </body>
 

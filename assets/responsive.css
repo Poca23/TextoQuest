@@ -45,11 +45,25 @@ body {
     padding-top: 4rem;
   }
 }
-.back-link {
+.site-header {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 999;
+  padding: 0.6rem 1.2rem;
+  background: rgba(13, 13, 15, 0.92);
+  /* border-bottom: 1px solid var(--border); */
+  backdrop-filter: blur(6px);
+  transition:
+    padding 0.3s,
+    background 0.3s,
+    border-color 0.3s;
+}
+.site-header.scrolled {
+  padding: 0.3rem 1.2rem;
+  background: rgba(13, 13, 15, 0.4);
+  border-bottom-color: transparent;
 }
 
 /* 5. Petit mobile ≤ 480px */
