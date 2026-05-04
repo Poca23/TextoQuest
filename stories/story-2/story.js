@@ -109,7 +109,14 @@ const STORY = {
             },
             {
               group: "Raison",
-              words: ["rejet", "rejetée", "seule", "regard", "quitte"],
+              words: [
+                "rejet",
+                "rejetée",
+                "seule",
+                "regard",
+                "quitte",
+                "différence",
+              ],
             },
           ],
           hints: ["entièrement blanche", "regards", "elle prit sa décision"],
@@ -123,7 +130,14 @@ const STORY = {
             { group: "Familles", words: ["moineau", "martinet", "colombe"] },
             {
               group: "Raison",
-              words: ["prudent", "clan", "refuge", "repart", "repartit"],
+              words: [
+                "prudent",
+                "clan",
+                "refuge",
+                "repart",
+                "repartit",
+                "renards",
+              ],
             },
           ],
           hints: [
@@ -165,6 +179,8 @@ const STORY = {
                 "singularité",
                 "marque",
                 "unique",
+                "accept",
+                "force",
               ],
             },
             {

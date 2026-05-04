@@ -96,7 +96,7 @@ const STORY = {
         },
         {
           type: "📖 Compréhension",
-          question: "Quel événement vient perturber la mission de Kenji ?",
+          question: "Quels événements viennent perturber la mission de Kenji ?",
           keywords: [
             { group: "Intrusion", words: ["sora", "suit", "suivait", "bruit"] },
             { group: "Gardes", words: ["garde", "gardes", "repér", "torche"] },
@@ -106,7 +106,7 @@ const STORY = {
         {
           type: "❤️ Émotions",
           question:
-            "Comment Kenji se sent-il ? Relève deux citations du texte.",
+            "Comment Kenji se sent-il ? Relève deux citations dans le texte.",
           keywords: [
             { group: "Peur", words: ["peur", "cœur", "paniq", "trembl"] },
             {
@@ -123,7 +123,7 @@ const STORY = {
         {
           type: "🔬 Analyse",
           question:
-            "Relève un passage au style indirect libre. Quel effet produit-il ?",
+            "Relève un passage rythmé dans le texte. Quel effet produit-il ?",
           keywords: [
             {
               group: "Passage",
