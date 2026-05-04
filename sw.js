@@ -1,4 +1,4 @@
-const CACHE = "textoquest-v4";
+const CACHE = "textoquest-v5";
 const FILES = [
   // Pages
   "./index.html",
