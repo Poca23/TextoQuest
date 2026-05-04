@@ -36,16 +36,14 @@ autour d'un extrait littéraire : puzzle narratif, QCM et questions à réponse 
 ## 2. Parcours de l'élève
 
 ```
-
 Accueil (index.html)
 └─► Choix d'une histoire
-└─► Intro (titre + description)
-└─► Lecture du texte
-└─► Phase 1 : Puzzle drag-and-drop
-└─► Phase 2 : QCM (simple ou multiple)
-└─► Phase 3 : Questions à réponse libre
-└─► Résultat & badge
-
+    └─► Intro (titre + description)
+        └─► Lecture du texte
+            └─► Phase 1 : Puzzle drag-and-drop
+                └─► Phase 2 : QCM (simple ou multiple)
+                    └─► Phase 3 : Questions à réponse libre
+                        └─► Résultat & badge
 ```
 
 Le nombre et le type des phases sont entièrement définis dans le fichier
@@ -67,46 +65,47 @@ Le nombre et le type des phases sont entièrement définis dans le fichier
 ## 3. Structure du projet
 
 ```
-
 textoquest/
-├── index.html # Accueil – liste des histoires
-├── game.html # Moteur de jeu (toutes les phases)
-├── core.js # Logique applicative centrale
-├── style.css # Thème global partagé
-├── manifest.json # Configuration PWA
-├── sw.js # Service Worker (cache offline)
+├── index.html               # Accueil – liste des histoires
+├── game.html                # Moteur de jeu (toutes les phases)
+├── core.js                  # Logique applicative centrale
+├── style.css                # Thème global partagé
+├── manifest.json            # Configuration PWA
+├── sw.js                    # Service Worker (cache offline)
 ├── README.md
 │
 ├── assets/
-│ ├── favicon/ # Icônes navigateur & PWA
-│ │ ├── android-chrome-192x192.png
-│ │ ├── android-chrome-512x512.png
-│ │ ├── apple-touch-icon.png
-│ │ ├── favicon-16x16.png
-│ │ ├── favicon-32x32.png
-│ │ ├── favicon.ico
-│ │ └── favicon_TextoQuest.png
-│ ├── logo/
-│ │ └── logo_TextoQuest.png
-│ ├── index-library.css # Styles propres à la page d'accueil
-│ ├── responsive.css # Media queries globales
-│ └── library.png # Illustration de fond de l'accueil
+│   ├── favicon/             # Icônes navigateur & PWA
+│   │   ├── android-chrome-192x192.png
+│   │   ├── android-chrome-512x512.png
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-16x16.png
+│   │   ├── favicon-32x32.png
+│   │   ├── favicon.ico
+│   │   └── favicon_TextoQuest.png
+│   ├── logo/
+│   │   └── logo_TextoQuest.png
+│   ├── index-library.css    # Styles propres à la page d'accueil
+│   ├── responsive.css       # Media queries globales
+│   └── library.png          # Illustration de fond de l'accueil
 │
 └── stories/
-├── story-1/ # La Forêt des Murmures (niveau 1)
-│ ├── story.js # Contenu complet de l'histoire
-│ ├── style.css # Surcharge de thème (couleurs…)
-│ ├── bg.png # Image de fond
-│ └── cover.png # Vignette sur la page d'accueil
-├── story-2/ # (niveau 2)
-│ └── …
-└── story-3/ # L'Épreuve Cachée (niveau 3)
-└── …
-
+    ├── story-1_La_Foret_des_Murmures/   # Niveau 1
+    │   ├── story.js                     # Contenu complet de l'histoire
+    │   ├── style.css                    # Surcharge de thème (couleurs…)
+    │   ├── bg.png                       # Image de fond
+    │   └── cover.png                    # Vignette sur la page d'accueil
+    ├── story-2_le_Nain_Grognon/         # Niveau 2
+    │   └── …
+    └── story-3_l_Hirondelle_Blanche/    # Niveau 3
+        └── …
 ```
 
 > Le projet est volontairement sans bundler ni framework pour faciliter le
 > déploiement et la prise en main par un non-développeur.
+
+> ⚠️ Les noms de dossiers dans `stories/` doivent correspondre exactement
+> aux valeurs du champ `id` dans chaque `story.js` (ex. `"story-1_La_Foret_des_Murmures"`).
 
 ---
 
@@ -115,27 +114,25 @@ textoquest/
 ### `core.js` — contrôleur central
 
 ```
-
 ┌──────────────────────────────────────────────┐
-│ ÉTAT DE SESSION │
-│ story · phaseIndex · score │
-│ attempts · dragSrc │
-│ \_touchSrc · \_touchOrigin │
-│ \_touchOffX/Y · \_blockStartX/Y │
+│  ÉTAT DE SESSION                             │
+│  story · phaseIndex · score                  │
+│  attempts · dragSrc                          │
+│  _touchSrc · _touchOrigin                    │
+│  _touchOffX/Y · _blockStartX/Y              │
 ├──────────────────────────────────────────────┤
-│ ROUTEUR D'ÉCRANS │
-│ show(id) → active/inactive sur .screen │
+│  ROUTEUR D'ÉCRANS                            │
+│  show(id) → active/inactive sur .screen      │
 ├──────────────────────────────────────────────┤
-│ MOTEUR DE PHASES (dispatch par type) │
-│ "drag-drop" → \_renderDragDrop() │
-│ "qcm" → \_renderQCM() │
-│ "free-text" → \_renderFreeText() │
+│  MOTEUR DE PHASES (dispatch par type)        │
+│  "drag-drop"  → _renderDragDrop()            │
+│  "qcm"        → _renderQCM()                 │
+│  "free-text"  → _renderFreeText()            │
 ├──────────────────────────────────────────────┤
-│ HELPERS TRANSVERSAUX │
-│ highlightHints() · \_showResult() │
-│ \_matchKeywords() · \_buildStamps() │
+│  HELPERS TRANSVERSAUX                        │
+│  highlightHints() · _showResult()            │
+│  _matchKeywords() · _buildStamps()           │
 └──────────────────────────────────────────────┘
-
 ```
 
 ### Gestion des écrans
@@ -144,14 +141,12 @@ Chaque vue est un `<div class="screen">` dans `game.html`.
 `show(id)` bascule la classe `.active` sur l'écran ciblé.
 
 ```
-
 index.html
-└─► game.html?story=story-3
-├── #screen-intro
-├── #screen-reading
-├── #screen-phase ← réutilisé pour chaque phase
-└── #screen-result
-
+└─► game.html?story=story-3_l_Hirondelle_Blanche
+    ├── #screen-intro
+    ├── #screen-reading
+    ├── #screen-phase   ← réutilisé pour chaque phase
+    └── #screen-result
 ```
 
 ### Chargement dynamique des histoires
@@ -202,12 +197,28 @@ Le bloc glissé se déplace via `transform: translate()` calculé depuis sa
 Les listeners `touchmove` et `touchend` sont attachés au `document` une
 seule fois pour garantir le nettoyage même si le doigt sort du bloc.
 
+### Personnalisation du thème par histoire
+
+Le fond d'écran est appliqué dynamiquement dans `core.js` via
+`story.background` :
+
+```js
+document.body.style.background = `url("${s.background}") center/cover no-repeat fixed`;
+```
+
+Les variables CSS de couleur (`--border`, `--accent`, `--accent2`) sont
+surchargées par le fichier `style.css` propre à chaque histoire.
+
 ### PWA — fonctionnement hors ligne
 
 | Fichier         | Rôle                                      |
 | --------------- | ----------------------------------------- |
 | `manifest.json` | Métadonnées d'installation (nom, icônes…) |
 | `sw.js`         | Cache toutes les ressources statiques     |
+
+La liste des fichiers à mettre en cache est déclarée manuellement dans
+`sw.js` (constante `FILES`). Penser à la mettre à jour lors de l'ajout
+d'une nouvelle histoire.
 
 ---
 
@@ -217,12 +228,12 @@ Chaque histoire expose une constante globale `STORY` :
 
 ```js
 const STORY = {
-  id: "story-3", // doit correspondre au nom du dossier
-  title: "L'Épreuve Cachée",
+  id: "story-3_l_Hirondelle_Blanche", // doit correspondre au nom du dossier
+  title: "L'Hirondelle Blanche",
   description: "Ta mission : …",
-  background: "stories/story-3/bg.png",
-  cover: "stories/story-3/cover.png",
-  level: 3, // affiché sur la carte d'accueil
+  background: "stories/story-3_l_Hirondelle_Blanche/bg.png",
+  cover: "stories/story-3_l_Hirondelle_Blanche/cover.png",
+  level: 3, // affiché sur la carte d'accueil (1 à 4)
   text: `<p>Le texte HTML…</p>`,
 
   phases: [
@@ -244,7 +255,7 @@ const STORY = {
       title: "❓ Question",
       instructions: "",
       question: "Quel animal Léa rencontre-t-elle ?",
-      multiple: false, // true → cases à cocher
+      multiple: false, // true → cases à cocher ; false → boutons radio
       options: [
         { text: "Un loup", correct: false },
         { text: "Un renard", correct: true },
@@ -262,11 +273,12 @@ const STORY = {
           type: "🧍 Personnages",
           question: "Décris Alba et explique pourquoi elle quitte son nid.",
           keywords: [
-            { group: "Description", words: ["blanc", "différent"] },
-            { group: "Raison", words: ["rejet", "regard"] },
+            { group: "Description", words: ["blanc", "blanche", "différent"] },
+            { group: "Raison", words: ["rejet", "seule", "regard"] },
           ],
           hints: ["entièrement blanche", "elle prit sa décision"],
         },
+        // … jusqu'à l'indice 4 / 4
       ],
     },
   ],
@@ -299,6 +311,9 @@ const STORY = {
 | 3   | ❤️ Émotions          | Relever des indices implicites |
 | 4   | 🌱 Récit initiatique | Interpréter le sens profond    |
 
+> La nature et le nombre des questions sont librement adaptables dans
+> chaque `story.js` selon le niveau et les objectifs pédagogiques visés.
+
 ### Texte toujours visible
 
 Le texte reste accessible dans un panneau scrollable **tout au long du
@@ -309,15 +324,21 @@ parcours**, encourageant le va-et-vient entre lecture et réponse.
 Des **tampons** (stamps) s'affichent en temps réel pour matérialiser chaque
 indice collecté, renforçant la motivation de l'élève.
 
+### Niveaux de difficulté
+
+Les histoires sont classées par niveau (1 à 3 actuellement) et affichées
+dans cet ordre sur la page d'accueil. Le niveau est matérialisé par des
+points colorés sur la vignette de chaque histoire.
+
 ---
 
 ## 7. Personnalisation & extensibilité
 
 ### Ajouter une nouvelle histoire
 
-1. Créer le dossier `stories/story-N/`
+1. Créer le dossier `stories/story-N_Nom_de_l_histoire/`
 2. Y placer `story.js`, `style.css`, `bg.png`, `cover.png`
-3. Référencer les fichiers dans `sw.js` (liste `FILES`)
+3. Ajouter les chemins correspondants dans la liste `FILES` de `sw.js`
 4. L'histoire apparaît automatiquement sur la page d'accueil
 
 ### Modifier le texte
@@ -355,7 +376,7 @@ text: `<p>Ton nouveau texte ici…</p>`,
 ### Personnaliser le thème d'une histoire
 
 ```css
-/* stories/story-N/style.css */
+/* stories/story-N_Nom/style.css */
 :root {
   --border: #2a6a8a;
   --accent: #3a9abf;
