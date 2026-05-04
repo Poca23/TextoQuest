@@ -4,7 +4,8 @@ const Core = (() => {
 
   // ── touch state (module-level, listeners attachés une seule fois) ──
   let _touchSrc = null,
-    _touchClone = null;
+    _touchClone = null,
+    _touchOrigin = null;
 
   // ── utilitaires ─────────────────────────────────────
   const $ = (id) => document.getElementById(id);
@@ -101,12 +102,11 @@ const Core = (() => {
     _bindDrag();
   }
 
-  function _makeBlock(b, i) {
+  function _makeBlock(b) {
     const div = document.createElement("div");
     div.className = "puzzle-block";
     div.draggable = true;
     div.dataset.id = b.id;
-    div.dataset.index = i;
     div.innerHTML = `<div class="block-label">${b.label}</div>${b.text}`;
     return div;
   }
@@ -114,6 +114,7 @@ const Core = (() => {
   function _bindDrag() {
     const zone = $("puzzle-zone");
     zone.querySelectorAll(".puzzle-block").forEach((el) => {
+      // ── souris ──
       el.addEventListener("dragstart", (e) => {
         dragSrc = el;
         el.classList.add("dragging");
@@ -131,20 +132,17 @@ const Core = (() => {
       el.addEventListener("dragleave", () => el.classList.remove("drag-over"));
       el.addEventListener("drop", (e) => {
         e.preventDefault();
-        if (dragSrc && dragSrc !== el) {
-          const all = [...zone.querySelectorAll(".puzzle-block")];
-          if (all.indexOf(dragSrc) < all.indexOf(el))
-            zone.insertBefore(dragSrc, el.nextSibling);
-          else zone.insertBefore(dragSrc, el);
-        }
+        if (dragSrc && dragSrc !== el) _swapBlocks(zone, dragSrc, el);
         el.classList.remove("drag-over");
       });
 
-      // ── touchstart sur chaque bloc ──
+      // ── tactile : touchstart uniquement ──
       el.addEventListener(
         "touchstart",
         (e) => {
+          if (_touchSrc) return; // un seul bloc actif
           _touchSrc = el;
+          _touchOrigin = el.nextSibling; // mémorise la position
           el.classList.add("dragging");
           const t = e.touches[0];
           _touchClone = el.cloneNode(true);
@@ -164,7 +162,7 @@ const Core = (() => {
     });
   }
 
-  // ── listeners document : attachés UNE SEULE FOIS au chargement ──
+  // ── listeners document : attachés UNE SEULE FOIS ──
   document.addEventListener(
     "touchmove",
     (e) => {
@@ -188,22 +186,32 @@ const Core = (() => {
       if (!_touchClone) return;
       const t = e.changedTouches[0];
       const under = _blockUnderTouch(t);
+      const zone = $("puzzle-zone");
+
       if (under && under !== _touchSrc) {
-        const zone = $("puzzle-zone");
-        const all = [...zone.querySelectorAll(".puzzle-block")];
-        if (all.indexOf(_touchSrc) < all.indexOf(under))
-          zone.insertBefore(_touchSrc, under.nextSibling);
-        else zone.insertBefore(_touchSrc, under);
+        _swapBlocks(zone, _touchSrc, under); // dépôt valide → échange
+      } else if (zone && _touchSrc) {
+        zone.insertBefore(_touchSrc, _touchOrigin); // dépôt invalide → retour
       }
+
       document
         .querySelectorAll(".puzzle-block")
         .forEach((b) => b.classList.remove("dragging", "drag-over"));
       _touchClone.remove();
       _touchClone = null;
       _touchSrc = null;
+      _touchOrigin = null;
     },
     { passive: true },
   );
+
+  function _swapBlocks(zone, a, b) {
+    const all = [...zone.querySelectorAll(".puzzle-block")];
+    const idxA = all.indexOf(a);
+    const idxB = all.indexOf(b);
+    if (idxA < idxB) zone.insertBefore(a, b.nextSibling);
+    else zone.insertBefore(a, b);
+  }
 
   function _blockUnderTouch(t) {
     return [...document.querySelectorAll(".puzzle-block")].find((b) => {
@@ -222,8 +230,7 @@ const Core = (() => {
       (b) => +b.dataset.id,
     );
     const correct = phase.blocks.map((b) => b.id);
-    const ok = order.every((v, i) => v === correct[i]);
-    if (ok) {
+    if (order.every((v, i) => v === correct[i])) {
       _feedback(
         "phase-feedback",
         "success",
