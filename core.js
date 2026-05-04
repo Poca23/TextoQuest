@@ -177,47 +177,47 @@ const Core = (() => {
           },
           { passive: true },
         );
-
-        el.addEventListener(
-          "touchmove",
-          (e) => {
-            e.preventDefault();
-            const t = e.touches[0];
-            if (clone) {
-              clone.style.left = t.clientX - clone.offsetWidth / 2 + "px";
-              clone.style.top = t.clientY - clone.offsetHeight / 2 + "px";
-            }
-            document
-              .querySelectorAll(".puzzle-block")
-              .forEach((b) => b.classList.remove("drag-over"));
-            const under = _blockUnderTouch(t);
-            if (under) under.classList.add("drag-over");
-          },
-          { passive: false },
-        );
-
-        el.addEventListener(
-          "touchend",
-          (e) => {
-            const t = e.changedTouches[0];
-            const under = _blockUnderTouch(t);
-            if (under && under !== touchSrc) {
-              const zone = $("puzzle-zone");
-              const all = [...zone.querySelectorAll(".puzzle-block")];
-              if (all.indexOf(touchSrc) < all.indexOf(under))
-                zone.insertBefore(touchSrc, under.nextSibling);
-              else zone.insertBefore(touchSrc, under);
-            }
-            document
-              .querySelectorAll(".puzzle-block")
-              .forEach((b) => b.classList.remove("dragging", "drag-over"));
-            clone?.remove();
-            clone = null;
-            touchSrc = null;
-          },
-          { passive: true },
-        );
       });
+
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!clone) return;
+        e.preventDefault();
+        const t = e.touches[0];
+        clone.style.left = t.clientX - clone.offsetWidth / 2 + "px";
+        clone.style.top = t.clientY - clone.offsetHeight / 2 + "px";
+        document
+          .querySelectorAll(".puzzle-block")
+          .forEach((b) => b.classList.remove("drag-over"));
+        const under = _blockUnderTouch(t);
+        if (under && under !== touchSrc) under.classList.add("drag-over");
+      },
+      { passive: false },
+    );
+
+    document.addEventListener(
+      "touchend",
+      (e) => {
+        if (!clone) return;
+        const t = e.changedTouches[0];
+        const under = _blockUnderTouch(t);
+        if (under && under !== touchSrc) {
+          const zone = $("puzzle-zone");
+          const all = [...zone.querySelectorAll(".puzzle-block")];
+          if (all.indexOf(touchSrc) < all.indexOf(under))
+            zone.insertBefore(touchSrc, under.nextSibling);
+          else zone.insertBefore(touchSrc, under);
+        }
+        document
+          .querySelectorAll(".puzzle-block")
+          .forEach((b) => b.classList.remove("dragging", "drag-over"));
+        clone.remove();
+        clone = null;
+        touchSrc = null;
+      },
+      { passive: true },
+    );
   }
 
   function _blockUnderTouch(t) {
