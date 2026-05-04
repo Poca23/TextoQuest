@@ -1,5 +1,5 @@
 const STORY = {
-  id: "story-1",
+  id: "story-1_La_Foret_des_Murmures",
   title: "La Forêt des Murmures",
   description: "Une aventure courte pour s'initier au jeu.",
   background: "stories/story-1_La_Foret_des_Murmures/bg.png",

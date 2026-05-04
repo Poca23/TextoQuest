@@ -1,5 +1,5 @@
 const STORY = {
-  id: "story-2",
+  id: "story-3_l_Hirondelle_Blanche",
   title: "L'Hirondelle Blanche",
   description:
     "Ta mission : lire le texte, reconstituer le voyage, puis collecter les indices comme un vrai détective.",

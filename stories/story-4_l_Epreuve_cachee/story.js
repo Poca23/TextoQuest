@@ -1,5 +1,5 @@
 const STORY = {
-  id: "story-3",
+  id: "story-4_l_Epreuve_cachee",
   title: "L'Épreuve Cachée",
   description:
     "Ta mission : lire le texte, reconstituer le récit, puis collecter tous les indices comme un vrai détective.",
