@@ -29,7 +29,7 @@ autour d'un extrait littéraire : puzzle narratif, QCM et questions à réponse 
 | 👤 **Public cible** | Élèves de 10 à 14 ans                                |
 | 🛠️ **Technologies** | HTML · CSS · JavaScript vanilla                      |
 | 📦 **Dépendances**  | Aucune                                               |
-| 📅 **Version**      | v1.0 – Mai 2026                                      |
+| 📅 **Version**      | v1.1 – Mai 2026                                      |
 
 ---
 
@@ -38,16 +38,26 @@ autour d'un extrait littéraire : puzzle narratif, QCM et questions à réponse 
 ```
 Accueil (index.html)
 └─► Choix d'une histoire
-    └─► Intro (titre + description)
-        └─► Lecture du texte
-            └─► Phase 1 : Puzzle drag-and-drop
-                └─► Phase 2 : QCM (simple ou multiple)
-                    └─► Phase 3 : Questions à réponse libre
-                        └─► Résultat & badge
+    └─► Intro (titre + description)          #intro
+        └─► Lecture du texte                 #lecture
+            └─► Phase 1 : Puzzle             #phase-1
+                └─► Phase 2 : QCM            #phase-2
+                    └─► Phase 3 : Réponses   #phase-3
+                        └─► Résultat & badge #resultat
 ```
 
 Le nombre et le type des phases sont entièrement définis dans le fichier
 `story.js` de chaque histoire — la structure est flexible.
+
+### URLs par écran
+
+| Écran          | URL                                                      |
+| -------------- | -------------------------------------------------------- |
+| Accueil        | `textoquest-cnd.netlify.app/`                            |
+| Intro histoire | `game.html?story=story-1_La_Foret_des_Murmures#intro`    |
+| Lecture        | `game.html?story=story-1_La_Foret_des_Murmures#lecture`  |
+| Phase en cours | `game.html?story=story-1_La_Foret_des_Murmures#phase-1`  |
+| Résultat       | `game.html?story=story-1_La_Foret_des_Murmures#resultat` |
 
 ### Badges de fin de parcours
 
@@ -121,8 +131,9 @@ textoquest/
 │  _touchSrc · _touchOrigin                    │
 │  _touchOffX/Y · _blockStartX/Y              │
 ├──────────────────────────────────────────────┤
-│  ROUTEUR D'ÉCRANS                            │
+│  ROUTEUR D'ÉCRANS + URL HASH                 │
 │  show(id) → active/inactive sur .screen      │
+│  history.pushState / replaceState → #hash    │
 ├──────────────────────────────────────────────┤
 │  MOTEUR DE PHASES (dispatch par type)        │
 │  "drag-drop"  → _renderDragDrop()            │
@@ -135,19 +146,33 @@ textoquest/
 └──────────────────────────────────────────────┘
 ```
 
-### Gestion des écrans
+### Gestion des écrans et de l'URL
 
 Chaque vue est un `<div class="screen">` dans `game.html`.
 `show(id)` bascule la classe `.active` sur l'écran ciblé.
+À chaque transition, le hash de l'URL est mis à jour via l'API History :
 
 ```
 index.html
 └─► game.html?story=story-3_l_Hirondelle_Blanche
-    ├── #screen-intro
-    ├── #screen-reading
-    ├── #screen-phase   ← réutilisé pour chaque phase
-    └── #screen-result
+    ├── #intro      ← replaceState (pas dans l'historique du bouton retour)
+    ├── #lecture    ← pushState
+    ├── #phase-1    ← pushState  (incrémenté à chaque nouvelle phase)
+    ├── #phase-2    ← pushState
+    └── #resultat   ← pushState
 ```
+
+| Fonction `core.js` | Hash mis à jour           |
+| ------------------ | ------------------------- |
+| `init()`           | `#intro` — `replaceState` |
+| `startReading()`   | `#lecture` — `pushState`  |
+| `nextPhase()`      | `#phase-N` — `pushState`  |
+| `_advance()`       | `#phase-N` — `pushState`  |
+| `_showResult()`    | `#resultat` — `pushState` |
+
+> **Pourquoi `replaceState` pour `#intro` ?**  
+> L'intro est l'écran d'entrée : on ne veut pas qu'un élève y revienne
+> en appuyant sur « précédent » depuis la lecture.
 
 ### Chargement dynamique des histoires
 
