@@ -123,22 +123,22 @@ const STORY = {
       clues: [
         {
           number: "Indice 1 / 4",
-          type: "🧍 Personnage & motivation",
+          type: "🧍 Personnage",
           question:
-            "Comment Alba est-elle décrite au début ? Pourquoi décide-t-elle de partir ?",
+            "Comment est Alba au début de l'histoire ? Cite deux choses qui montrent qu'elle est différente des autres.",
           keywords: [
             {
               group: "Description",
               words: ["blanche", "blanc", "albinos", "différente"],
             },
             {
-              group: "Motivation",
-              words: ["regards", "rejet", "seule", "dernier", "attendre"],
+              group: "Traitement",
+              words: ["dernier", "seule", "attendre", "regards"],
             },
           ],
           hints: [
             "entièrement blanche",
-            "regards qui glissaient",
+            "on lui tendait les vers en dernier",
             "elle battait des ailes seule",
           ],
           help: [
@@ -146,27 +146,27 @@ const STORY = {
               level: 1,
               icon: "💡",
               title: "Astuce méthode",
-              text: "Pose-toi deux questions : <strong>Qui ?</strong> — Comment est Alba ? Et <strong>Pourquoi ?</strong> — Qu'est-ce qui la pousse à partir ?",
+              text: "Cherche deux informations : <strong>Comment elle est</strong> (sa couleur) et <strong>comment les autres la traitent</strong> (ce qu'ils font ou ne font pas).",
             },
             {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Relis les deux premiers paragraphes. Cherche les mots qui décrivent la couleur d'Alba, puis les mots qui montrent qu'elle est seule.",
+              text: "Relis les deux premiers paragraphes. Cherche les mots qui décrivent la couleur d'Alba, puis une phrase qui montre qu'elle est laissée de côté.",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces passages montrent comment Alba est décrite et comment les autres la traitent. Utilise ces mots pour construire ta réponse.",
+              text: "Ces passages te donnent la réponse : l'un décrit sa couleur, l'autre montre comment les autres la traitent. Recopie un élément de chaque passage.",
             },
           ],
         },
         {
           number: "Indice 2 / 4",
-          type: "🗺️ Les étapes du voyage",
+          type: "🗺️ Le voyage",
           question:
-            "Cite les trois familles rencontrées. Pour chacune, explique en une phrase pourquoi Alba repart.",
+            "Cite les trois familles qu'Alba rencontre. Pour chacune, dis en une phrase pourquoi elle repart.",
           keywords: [
             {
               group: "Familles",
@@ -194,120 +194,105 @@ const STORY = {
               level: 1,
               icon: "💡",
               title: "Astuce méthode",
-              text: "Pose-toi la question : <strong>Quoi ?</strong> — Que se passe-t-il à chaque étape ? Combien de familles Alba rencontre-t-elle ? Pourquoi repart-elle à chaque fois ?",
+              text: "Cherche dans le texte les trois animaux différents qu'Alba rencontre. Pour chacun, lis ce qu'ils lui disent ou font, et demande-toi : pourquoi Alba repart-elle ?",
             },
             {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Repère les trois moments où Alba arrive chez une nouvelle famille. Pour chacun, lis ce que lui dit ou fait cette famille.",
+              text: "Repère les trois moments où Alba arrive chez une nouvelle famille. Pour chacun, lis la phrase que lui dit cette famille.",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces phrases sont dites par les familles rencontrées. Chacune explique pourquoi Alba repart. Recopie le nom de la famille et la raison.",
+              text: "Ces phrases sont dites par les familles rencontrées. Recopie le nom de chaque famille et la raison pour laquelle Alba repart.",
             },
           ],
         },
         {
           number: "Indice 3 / 4",
-          type: "🔬 Analyse du style",
+          type: "❤️ Les émotions d'Alba",
           question:
-            "Relève une comparaison du texte qui commence par 'comme'. Recopie-la puis explique ce qu'elle nous dit sur Alba.",
+            "Comment Alba se sent-elle quand elle quitte les moineaux ? Et comment se sent-elle à la fin, chez les colombes ? Cite le texte pour chaque réponse.",
           keywords: [
-            { group: "Citation", words: ["tache", "soie", "main"] },
             {
-              group: "Interprétation",
-              words: [
-                "seule",
-                "isolée",
-                "légère",
-                "belle",
-                "accueil",
-                "douceur",
-                "force",
-              ],
+              group: "Tristesse",
+              words: ["serré", "cœur serré", "silence", "seule"],
+            },
+            {
+              group: "Bonheur",
+              words: ["resta", "apprirent", "déploya", "découvrit", "marque"],
             },
           ],
           hints: [
-            "comme une tache sombre qui rétrécissait",
-            "comme des voiles de soie",
-            "offerte comme on tend la main",
+            "Alba repartit le cœur serré",
+            "Alba resta",
+            "sa différence n'était pas une erreur",
           ],
           help: [
             {
               level: 1,
               icon: "💡",
               title: "Astuce méthode",
-              text: "Pose-toi la question : <strong>Comment ?</strong> — L'auteur compare Alba ou quelque chose à autre chose. Cherche le mot <strong>« comme »</strong> dans le texte.",
+              text: "Cherche une phrase qui montre que c'est triste chez les moineaux, et une phrase qui montre que c'est bien chez les colombes.",
             },
             {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Cherche le mot « comme » dans le texte. Tu en trouveras plusieurs. Choisis-en une et demande-toi : qu'est-ce qui est comparé à quoi ? Qu'est-ce que ça nous fait ressentir ?",
+              text: "Relis le paragraphe après les moineaux, puis le grand paragraphe sur les colombes. Quels mots montrent les émotions d'Alba ?",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces trois phrases contiennent le mot « comme ». Choisis-en une, recopie-la, puis dis ce qu'elle nous apprend sur Alba ou sur l'histoire.",
+              text: "Ces phrases montrent comment Alba se sent à deux moments différents. Recopie-les et dis ce qu'elles nous apprennent sur ses émotions.",
             },
           ],
         },
         {
           number: "Indice 4 / 4",
-          type: "🌱 Message de l'histoire",
+          type: "🌱 Ce qu'Alba apprend",
           question:
-            "En quoi cette histoire est-elle un voyage qui fait grandir ? Quelle leçon Alba apprend-elle sur elle-même ?",
+            "Qu'est-ce qu'Alba comprend à la fin sur sa différence ? Recopie la phrase du texte qui le dit, puis explique-la avec tes propres mots.",
           keywords: [
             {
-              group: "Parcours",
-              words: [
-                "voyage",
-                "épreuve",
-                "rejet",
-                "rencontre",
-                "grandir",
-                "chemin",
-              ],
+              group: "Citation",
+              words: ["erreur", "marque", "différence"],
             },
             {
-              group: "Leçon",
+              group: "Explication",
               words: [
-                "différence",
-                "marque",
-                "erreur",
-                "singularité",
                 "force",
                 "unique",
+                "spéciale",
+                "fierté",
+                "accepte",
+                "aime",
+                "bien",
               ],
             },
           ],
-          hints: [
-            "sa différence n'était pas une erreur",
-            "c'était sa marque",
-            "chacun dans leur singularité",
-          ],
+          hints: ["sa différence n'était pas une erreur", "c'était sa marque"],
           help: [
             {
               level: 1,
               icon: "💡",
               title: "Astuce méthode",
-              text: "Pose-toi la question : <strong>Pourquoi ?</strong> — Qu'est-ce qu'Alba comprend à la fin qu'elle ne savait pas au début ? En quoi a-t-elle changé ?",
+              text: "Cherche dans le texte une phrase qui dit ce qu'Alba pense de sa couleur blanche à la fin. Est-ce qu'elle en a honte ou est-ce qu'elle l'accepte ?",
             },
             {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Relis l'avant-dernier paragraphe. Cherche la phrase qui dit ce qu'Alba a compris sur sa différence.",
+              text: "Relis l'avant-dernier paragraphe. Cherche la phrase qui parle de la « différence » d'Alba. Recopie-la, puis dis ce qu'elle veut dire.",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces phrases disent ce qu'Alba a appris sur elle-même. Utilise ces mots pour expliquer la leçon de l'histoire avec tes propres mots.",
+              text: "Cette phrase dit ce qu'Alba a compris sur elle-même. Recopie-la, puis explique avec tes propres mots ce que ça signifie.",
             },
           ],
         },

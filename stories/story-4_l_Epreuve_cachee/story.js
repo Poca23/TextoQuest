@@ -75,7 +75,7 @@ const STORY = {
       clues: [
         {
           number: "Indice 1 / 6",
-          type: "🧍 Factuel",
+          type: "🧍 Personnage",
           question: "Qui sont les personnages ? Décris chacun brièvement.",
           keywords: [
             { group: "Kenji", words: ["kenji", "ninja", "mission"] },
@@ -168,7 +168,7 @@ const STORY = {
           number: "Indice 4 / 6",
           type: "❤️ Émotions",
           question:
-            "Comment Kenji se sent-il ? Relève deux phrases du texte qui le montrent.",
+            "Comment Kenji se sent-il pendant la mission ? Relève deux phrases du texte qui le montrent.",
           keywords: [
             {
               group: "Émotion",
@@ -195,21 +195,21 @@ const STORY = {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Relis les passages en italique. Ce sont les pensées de Kenji. Que se dit-il ? Qu'est-ce que cela révèle sur ses émotions ?",
+              text: "Relis les passages en italique : ce sont les pensées de Kenji. Que se dit-il ? Cherche aussi une phrase qui parle de son cœur ou de sa peur.",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces phrases montrent ce que Kenji ressent. Recopie-en deux et dis en un mot quelle émotion elles expriment.",
+              text: "Ces phrases montrent ce que Kenji ressent. Recopies-en deux et dis en un mot quelle émotion elles expriment : peur, stress, colère ?",
             },
           ],
         },
         {
           number: "Indice 5 / 6",
-          type: "🔬 Analyse",
+          type: "🔬 Observe l'écriture",
           question:
-            "Relève un passage court et rythmé dans le texte. Quel effet produit-il sur le lecteur ?",
+            "Trouve un endroit dans le texte où les phrases sont très courtes, une après l'autre. Recopie ce passage et dis ce que ça donne comme impression : est-ce que ça va vite ou lentement ?",
           keywords: [
             {
               group: "Passage",
@@ -218,11 +218,11 @@ const STORY = {
             {
               group: "Effet",
               words: [
+                "vite",
+                "rapide",
                 "tension",
                 "suspense",
-                "angoisse",
-                "peur",
-                "rapide",
+                "stress",
                 "haletant",
               ],
             },
@@ -237,56 +237,60 @@ const STORY = {
               level: 1,
               icon: "💡",
               title: "Astuce méthode",
-              text: "Pose-toi la question : <strong>Comment ?</strong> — L'auteur utilise parfois des phrases très courtes, une à la suite de l'autre. Cherche un endroit où les phrases sont très courtes.",
+              text: "Cherche dans le texte un endroit où il y a plusieurs phrases très courtes à la suite. Par exemple : trois ou quatre mots, puis un point, puis trois ou quatre mots, puis un point…",
             },
             {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Relis le paragraphe « Il progressait… » et le paragraphe « Mais au même instant… ». Y a-t-il des groupes de mots très courts, séparés par des points ?",
+              text: "Relis la toute première phrase du texte, puis le paragraphe « Il progressait… ». Tu trouveras des groupes de mots très courts séparés par des points.",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces passages sont faits de phrases très courtes. Recopies-en un, puis dis : quel effet cela produit-il ? Est-ce que ça accélère ou ralentit la lecture ?",
+              text: "Ces passages sont faits de phrases très courtes. Recopies-en un, puis réponds : est-ce que ça donne l'impression que ça va vite ou lentement ? Pourquoi ?",
             },
           ],
         },
         {
           number: "Indice 6 / 6",
-          type: "🌱 Récit initiatique",
+          type: "🌱 Ce que Kenji apprend",
           question:
-            "En quoi ce texte est-il un récit qui fait grandir ? Quelle leçon Kenji apprend-il ?",
+            "À la fin, Kenji prend la main de Sora. Qu'est-ce qu'il comprend à ce moment-là ? Recopie la phrase du texte qui l'explique, puis dis-le avec tes propres mots.",
           keywords: [
             {
-              group: "Épreuve",
-              words: ["épreuve", "première", "seul", "mission"],
+              group: "Citation",
+              words: ["épreuve", "seul", "aide", "confiance", "difficile"],
             },
             {
-              group: "Leçon",
-              words: ["aide", "accepter", "confiance", "grandir", "ensemble"],
+              group: "Explication",
+              words: ["accepter", "ensemble", "grandir", "aider", "besoin"],
             },
           ],
-          hints: ["la vraie épreuve", "accepter l'aide", "Kenji prit sa main"],
+          hints: [
+            "c'était peut-être ça, la vraie épreuve",
+            "Accepter l'aide de quelqu'un",
+            "renoncer à l'idée qu'il pouvait tout faire seul",
+          ],
           help: [
             {
               level: 1,
               icon: "💡",
               title: "Astuce méthode",
-              text: "Pose-toi la question : <strong>Pourquoi ?</strong> — Qu'est-ce que Kenji comprend à la fin qu'il ne savait pas au début ? En quoi a-t-il changé ?",
+              text: "Pose-toi la question : <strong>Pourquoi ?</strong> — Pourquoi est-ce difficile pour Kenji de prendre la main de Sora ? Qu'est-ce qu'il doit accepter ?",
             },
             {
               level: 2,
               icon: "🔍",
               title: "Cherche dans le texte",
-              text: "Relis l'avant-dernier paragraphe. Il y a une phrase qui dit ce qu'était vraiment la vraie épreuve. Cherche-la.",
+              text: "Relis l'avant-dernier paragraphe. Il y a une phrase qui commence par « c'était peut-être ça… ». Cherche-la et lis-la bien.",
             },
             {
               level: 3,
               icon: "🔦",
               title: "Regarde les passages surlignés",
-              text: "Ces phrases expliquent ce que Kenji a appris. Utilise-les pour dire avec tes propres mots quelle est la leçon de cette histoire.",
+              text: "Ces phrases expliquent ce que Kenji comprend à la fin. Recopie la phrase clé, puis dis avec tes propres mots ce qu'il a appris.",
             },
           ],
         },
