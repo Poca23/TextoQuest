@@ -471,15 +471,16 @@ mark {
 .sixw-section {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.8rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .sixw-block {
   background: rgba(15, 10, 5, 0.75);
+  box-shadow: 0 2px 20px var(--border);
   border: 1.5px solid var(--border);
   border-radius: 12px;
-  padding: 1.2rem 1.4rem;
+  padding: 1.2rem 1.8rem;
   width: 100%;
 }
 

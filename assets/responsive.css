@@ -1,28 +1,22 @@
 /* ── RESPONSIVE.CSS ──────────────────────────────────────────────────────────
-   Fond plein écran, scroll, mobile portrait & paysage.
-   Source unique pour tout ce qui est viewport/responsive.
 ──────────────────────────────────────────────────────────────────────────── */
 
-/* 1. Fallback sombre si l'image de fond ne charge pas */
 html {
   min-height: 100%;
   background: var(--bg);
 }
 
-/* 2. Corps : hauteur dynamique + pas de scroll horizontal */
 body {
   min-height: 100dvh;
   overflow-x: hidden;
-  background-attachment: scroll; /* fixed cassé sur Safari iOS en paysage */
+  background-attachment: scroll;
 }
 
-/* 3. Chaque écran occupe au minimum la hauteur réelle du viewport */
 .screen {
   min-height: 100dvh;
-  padding-top: 3.5rem;
+  padding-top: 1rem;
 }
 
-/* 4. Tablet/mobile portrait ≤ 768px */
 @media (max-width: 768px) {
   .two-col,
   .two-col.wide {
@@ -53,7 +47,6 @@ body {
   z-index: 999;
   padding: 0.6rem 1.2rem;
   background: rgba(13, 13, 15, 0.92);
-  /* border-bottom: 1px solid var(--border); */
   backdrop-filter: blur(6px);
   transition:
     padding 0.3s,
@@ -66,7 +59,6 @@ body {
   border-bottom-color: transparent;
 }
 
-/* 5. Petit mobile ≤ 480px */
 @media (max-width: 480px) {
   .screen {
     padding: 1rem;
@@ -76,7 +68,6 @@ body {
   }
 }
 
-/* 6. Mobile portrait ≤ 640px : grille en colonne unique */
 @media (max-width: 640px) {
   .stories-grid {
     grid-template-columns: 1fr;
@@ -86,7 +77,6 @@ body {
   }
 }
 
-/* 7. Mobile paysage : compact pour éviter les espaces vides */
 @media (max-height: 500px) and (orientation: landscape) {
   .screen {
     padding: 0.8rem;
