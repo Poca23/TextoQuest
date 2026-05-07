@@ -1,74 +1,79 @@
-# README – TextoQuest · L'Enquêteur du Récit
+# README – L'Enquêteur du Récit — TextoQuest
 
 ---
 
 ## Table des matières
 
 1. [Présentation](#1-présentation)
-2. [Parcours de l'élève](#2-parcours-de-lélève)
+2. [Démo rapide](#2-démo-rapide)
 3. [Structure du projet](#3-structure-du-projet)
 4. [Architecture technique](#4-architecture-technique)
-5. [Format d'une histoire (`story.js`)](#5-format-dune-histoire-storyjs)
-6. [Fonctionnement pédagogique](#6-fonctionnement-pédagogique)
-7. [Personnalisation & extensibilité](#7-personnalisation--extensibilité)
-8. [Lancer le projet](#8-lancer-le-projet)
-9. [Auteure & contact](#9-auteure--contact)
+5. [Fonctionnement pédagogique](#5-fonctionnement-pédagogique)
+6. [Personnalisation & extensibilité](#6-personnalisation--extensibilité)
+7. [Lancer le projet](#7-lancer-le-projet)
+8. [Auteure & contact](#8-auteure--contact)
 
 ---
 
 ## 1. Présentation
 
-**TextoQuest** est une application web pédagogique interactive destinée aux élèves
-de collège (cycle 3–4). Elle propose un parcours de lecture en plusieurs phases
-autour d'un extrait littéraire : puzzle narratif, QCM et questions à réponse libre.
+**TextoQuest** est une application web pédagogique interactive destinée aux élèves de collège (cycle 3–4).  
+Elle propose un parcours de lecture en plusieurs phases autour d'extraits littéraires de niveaux progressifs.
 
 |                     |                                                      |
 | ------------------- | ---------------------------------------------------- |
-| 📚 **Histoires**    | 3 récits de niveaux 1 à 3 (extensible)               |
+| 📚 **Histoires**    | 4 récits de niveaux 1 à 4                            |
 | 🎯 **Objectif**     | Comprendre, analyser et interroger un texte narratif |
 | 👤 **Public cible** | Élèves de 10 à 14 ans                                |
 | 🛠️ **Technologies** | HTML · CSS · JavaScript vanilla                      |
 | 📦 **Dépendances**  | Aucune                                               |
-| 📅 **Version**      | v1.1 – Mai 2026                                      |
+| 📅 **Version**      | Mai 2026                                             |
+
+### Histoires disponibles
+
+| Niveau | Titre                     | Description                                                                 |
+| ------ | ------------------------- | --------------------------------------------------------------------------- |
+| 1      | **La Forêt des Murmures** | Une aventure courte pour s'initier au jeu.                                  |
+| 2      | **Le Nain Grognon**       | Un jeune nain découvre qu'à force de ronchonner, il passe à côté de la vie. |
+| 3      | **L'Hirondelle Blanche**  | Un voyage initiatique à la recherche d'une vraie famille.                   |
+| 4      | **L'Épreuve Cachée**      | Une mission nocturne sur les toits de Kazan.                                |
+
+### Parcours de l'élève
+
+```
+Accueil → Lecture → Phase 1 : Puzzle → Phase 2 : Indices → Résultat
+```
 
 ---
 
-## 2. Parcours de l'élève
+## 2. Démo rapide
 
-```
-Accueil (index.html)
-└─► Choix d'une histoire
-    └─► Intro (titre + description)          #intro
-        └─► Lecture du texte                 #lecture
-            └─► Phase 1 : Puzzle             #phase-1
-                └─► Phase 2 : QCM            #phase-2
-                    └─► Phase 3 : Réponses   #phase-3
-                        └─► Résultat & badge #resultat
-```
+### Phase 1 – Puzzle narratif
 
-Le nombre et le type des phases sont entièrement définis dans le fichier
-`story.js` de chaque histoire — la structure est flexible.
+L'élève reçoit des blocs résumant l'histoire dans un ordre mélangé.  
+Il doit les **glisser-déposer** pour reconstituer la chronologie du récit.  
+Compatible souris (PC) et tactile (mobile/tablette).
 
-### URLs par écran
+### Phase 2 – Collecte d'indices
 
-| Écran          | URL                                                      |
-| -------------- | -------------------------------------------------------- |
-| Accueil        | `textoquest-cnd.netlify.app/`                            |
-| Intro histoire | `game.html?story=story-1_La_Foret_des_Murmures#intro`    |
-| Lecture        | `game.html?story=story-1_La_Foret_des_Murmures#lecture`  |
-| Phase en cours | `game.html?story=story-1_La_Foret_des_Murmures#phase-1`  |
-| Résultat       | `game.html?story=story-1_La_Foret_des_Murmures#resultat` |
+L'élève répond à des **questions progressives** (factuel → analyse → initiatique).  
+Un système de mots-clés valide chaque réponse.  
+Après 3 échecs, un système d'**aide progressive à 3 niveaux** guide l'élève :
 
-### Badges de fin de parcours
+- 💡 **Niveau 1** — Astuce méthode (conseil de stratégie)
+- 🔍 **Niveau 2** — Piste de recherche dans le texte
+- 🔦 **Niveau 3** — Surlignage automatique des passages-clés
 
-| Score (réponses libres réussies) | Badge                   |
-| -------------------------------- | ----------------------- |
-| 0 – 1                            | 🔎 Détective débutant   |
-| 2                                | 🕵️ Inspecteur en herbe  |
-| 3                                | 🏅 Grand Inspecteur     |
-| 4                                | 🌟 Détective Légendaire |
+### Résultat
 
-> Les seuils et les intitulés des badges sont configurables dans chaque `story.js`.
+Un badge est attribué selon le nombre d'indices collectés :
+
+| Indices | Badge                   |
+| ------- | ----------------------- |
+| 0 – 2   | 🔎 Détective débutant   |
+| 3 – 4   | 🕵️ Inspecteur en herbe  |
+| 5       | 🏅 Grand Inspecteur     |
+| 6       | 🌟 Détective Légendaire |
 
 ---
 
@@ -76,373 +81,304 @@ Le nombre et le type des phases sont entièrement définis dans le fichier
 
 ```
 textoquest/
-├── index.html               # Accueil – liste des histoires
+├── index.html               # Accueil – choix de l'histoire + section méthode 6W
 ├── game.html                # Moteur de jeu (toutes les phases)
-├── core.js                  # Logique applicative centrale
-├── style.css                # Thème global partagé
+├── core.js                  # Logique applicative complète
+├── style.css                # Thème global (couleurs, cartes, puzzle, QCM, texte libre)
 ├── manifest.json            # Configuration PWA
-├── sw.js                    # Service Worker (cache offline)
-├── README.md
-│
+├── sw.js                    # Service Worker (cache offline, version v5)
 ├── assets/
-│   ├── favicon/             # Icônes navigateur & PWA
-│   │   ├── android-chrome-192x192.png
-│   │   ├── android-chrome-512x512.png
-│   │   ├── apple-touch-icon.png
-│   │   ├── favicon-16x16.png
-│   │   ├── favicon-32x32.png
-│   │   ├── favicon.ico
-│   │   └── favicon_TextoQuest.png
-│   ├── logo/
-│   │   └── logo_TextoQuest.png
-│   ├── index-library.css    # Styles propres à la page d'accueil
-│   ├── responsive.css       # Media queries globales
-│   └── library.png          # Illustration de fond de l'accueil
-│
+│   ├── logo/                # Logo TextoQuest
+│   ├── favicon/             # Favicons multi-formats
+│   ├── library.png          # Image de fond de la bibliothèque
+│   ├── index-library.css    # Styles spécifiques à la page d'accueil
+│   └── responsive.css       # Règles responsive (mobile / tablette)
 └── stories/
-    ├── story-1_La_Foret_des_Murmures/   # Niveau 1
-    │   ├── story.js                     # Contenu complet de l'histoire
-    │   ├── style.css                    # Surcharge de thème (couleurs…)
-    │   ├── bg.png                       # Image de fond
-    │   └── cover.png                    # Vignette sur la page d'accueil
-    ├── story-2_le_Nain_Grognon/         # Niveau 2
+    ├── story-1_La_Foret_des_Murmures/
+    │   ├── story.js         # Contenu (texte, phases, indices, badges)
+    │   ├── style.css        # Thème visuel propre à l'histoire
+    │   ├── bg.png           # Image de fond
+    │   └── cover.png        # Couverture (grille d'accueil)
+    ├── story-2_le_Nain_Grognon/
     │   └── …
-    └── story-3_l_Hirondelle_Blanche/    # Niveau 3
+    ├── story-3_l_Hirondelle_Blanche/
+    │   └── …
+    └── story-4_l_Epreuve_cachee/
         └── …
 ```
 
-> Le projet est volontairement sans bundler ni framework pour faciliter le
-> déploiement et la prise en main par un non-développeur.
-
-> ⚠️ Les noms de dossiers dans `stories/` doivent correspondre exactement
-> aux valeurs du champ `id` dans chaque `story.js` (ex. `"story-1_La_Foret_des_Murmures"`).
+> Le projet est intentionnellement **mono-répertoire**, sans bundler ni framework,  
+> pour faciliter le déploiement et la maintenance par un non-développeur.
 
 ---
 
 ## 4. Architecture technique
 
-### `core.js` — contrôleur central
+### `core.js` — trois zones distinctes
 
 ```
-┌──────────────────────────────────────────────┐
-│  ÉTAT DE SESSION                             │
-│  story · phaseIndex · score                  │
-│  attempts · dragSrc                          │
-│  _touchSrc · _touchOrigin                    │
-│  _touchOffX/Y · _blockStartX/Y              │
-├──────────────────────────────────────────────┤
-│  ROUTEUR D'ÉCRANS + URL HASH                 │
-│  show(id) → active/inactive sur .screen      │
-│  history.pushState / replaceState → #hash    │
-├──────────────────────────────────────────────┤
-│  MOTEUR DE PHASES (dispatch par type)        │
-│  "drag-drop"  → _renderDragDrop()            │
-│  "qcm"        → _renderQCM()                 │
-│  "free-text"  → _renderFreeText()            │
-├──────────────────────────────────────────────┤
-│  HELPERS TRANSVERSAUX                        │
-│  highlightHints() · _showResult()            │
-│  _matchKeywords() · _buildStamps()           │
-└──────────────────────────────────────────────┘
+┌─────────────────────────────────────┐
+│  DATA                               │  ← Tout le contenu modifiable
+│  STORY_HTML · PUZZLE_BLOCKS         │
+│  CLUES · BADGES                     │
+├─────────────────────────────────────┤
+│  STATE                              │  ← État global de la session
+│  phaseIndex · score · attempts      │
+│  dragSrc · _touchSrc · _touchOrigin │
+│  _touchOffX · _touchOffY            │
+├─────────────────────────────────────┤
+│  HELPERS + APP CONTROLLER           │  ← Logique et rendu
+│  _renderPhase · validatePhase       │
+│  _checkDragDrop · _checkQCM         │
+│  _checkFreeText · _showResult…      │
+└─────────────────────────────────────┘
 ```
 
-### Gestion des écrans et de l'URL
+### Gestion des écrans
 
-Chaque vue est un `<div class="screen">` dans `game.html`.
-`show(id)` bascule la classe `.active` sur l'écran ciblé.
-À chaque transition, le hash de l'URL est mis à jour via l'API History :
+Chaque vue est un `<div class="screen">`.  
+La fonction `show(id)` active uniquement l'écran ciblé via la classe `.active`.
 
 ```
-index.html
-└─► game.html?story=story-3_l_Hirondelle_Blanche
-    ├── #intro      ← replaceState (pas dans l'historique du bouton retour)
-    ├── #lecture    ← pushState
-    ├── #phase-1    ← pushState  (incrémenté à chaque nouvelle phase)
-    ├── #phase-2    ← pushState
-    └── #resultat   ← pushState
+index.html → game.html → screen-intro → screen-reading → screen-phase → screen-result
 ```
 
-| Fonction `core.js` | Hash mis à jour           |
-| ------------------ | ------------------------- |
-| `init()`           | `#intro` — `replaceState` |
-| `startReading()`   | `#lecture` — `pushState`  |
-| `nextPhase()`      | `#phase-N` — `pushState`  |
-| `_advance()`       | `#phase-N` — `pushState`  |
-| `_showResult()`    | `#resultat` — `pushState` |
+### Types de phases disponibles
 
-> **Pourquoi `replaceState` pour `#intro` ?**  
-> L'intro est l'écran d'entrée : on ne veut pas qu'un élève y revienne
-> en appuyant sur « précédent » depuis la lecture.
+| Type        | Description                                 |
+| ----------- | ------------------------------------------- |
+| `drag-drop` | Blocs à remettre dans l'ordre chronologique |
+| `qcm`       | Question à choix unique ou multiple         |
+| `free-text` | Réponse libre validée par mots-clés         |
 
-### Chargement dynamique des histoires
+### Validation des réponses (type `free-text`)
 
-`game.html` lit le paramètre `?story=` dans l'URL, injecte le script
-`stories/<id>/story.js` correspondant, puis appelle `Core.init(STORY)`.
+La validation repose sur un système de **groupes de mots-clés** :
 
 ```js
-const sid = new URLSearchParams(location.search).get("story") || "story-1";
-const s = document.createElement("script");
-s.src = `stories/${sid}/story.js`;
-s.onload = () => Core.init(STORY);
-document.head.appendChild(s);
-```
-
-### Validation des réponses libres
-
-La correction repose sur des **groupes de mots-clés** :
-
-```js
+// Exemple : indice 1
 keywords: [
-  { group: "Description", words: ["blanc", "blanche", "différent"] },
-  { group: "Raison", words: ["rejet", "seule", "regard"] },
+  { group: "Kenji", words: ["kenji", "ninja", "mission"] },
+  { group: "Sora", words: ["sora", "fille", "clan"] },
 ];
 ```
 
-Une réponse est acceptée si **chaque groupe** contient au moins un mot
-présent dans la saisie de l'élève (insensible à la casse).
+Une réponse est acceptée si **chaque groupe** contient au moins un mot  
+trouvé dans la réponse de l'élève (insensible à la casse).
 
-### Système d'aide progressive (réponses libres)
+### Système d'aide progressive (3 niveaux)
 
 ```
-Tentative 1 → message d'erreur + liste des groupes manquants
-Tentative 2 → idem
-Tentative 3 → surlignage automatique des passages-clés dans le texte
-             + indice passé en « résolu sans point »
+Tentative 1 → Astuce méthode (conseil général)
+Tentative 2 → Piste de recherche ciblée dans le texte
+Tentative 3 → Surlignage automatique des passages-clés
 ```
 
-### Drag & Drop — double support souris / tactile
-
-| Interaction    | Événements utilisés                           |
-| -------------- | --------------------------------------------- |
-| 🖱️ Souris / PC | `dragstart` · `dragover` · `drop` · `dragend` |
-| 👆 Tactile     | `touchstart` · `touchmove` · `touchend`       |
-
-Le bloc glissé se déplace via `transform: translate()` calculé depuis sa
-**position initiale** (`_blockStartX/Y`) — sans clone, sans dérive.
-Les listeners `touchmove` et `touchend` sont attachés au `document` une
-seule fois pour garantir le nettoyage même si le doigt sort du bloc.
-
-### Personnalisation du thème par histoire
-
-Le fond d'écran est appliqué dynamiquement dans `core.js` via
-`story.background` :
+Chaque indice de type `free-text` définit son propre tableau `help` avec trois entrées :
 
 ```js
-document.body.style.background = `url("${s.background}") center/cover no-repeat fixed`;
+help: [
+  { level: 1, icon: "💡", title: "Astuce méthode", text: "…" },
+  { level: 2, icon: "🔍", title: "Cherche dans le texte", text: "…" },
+  { level: 3, icon: "🔦", title: "Regarde les passages surlignés", text: "…" },
+];
 ```
 
-Les variables CSS de couleur (`--border`, `--accent`, `--accent2`) sont
-surchargées par le fichier `style.css` propre à chaque histoire.
+### Drag & Drop (puzzle)
 
-### PWA — fonctionnement hors ligne
+Implémenté en JavaScript natif avec **double support** :
 
-| Fichier         | Rôle                                      |
-| --------------- | ----------------------------------------- |
-| `manifest.json` | Métadonnées d'installation (nom, icônes…) |
-| `sw.js`         | Cache toutes les ressources statiques     |
+| Interaction    | Événements utilisés                                     |
+| -------------- | ------------------------------------------------------- |
+| 🖱️ Souris / PC | `dragstart` · `dragover` · `drop` · `dragend`           |
+| 👆 Tactile     | `touchstart` · `touchmove` · `touchend` · `touchcancel` |
 
-La liste des fichiers à mettre en cache est déclarée manuellement dans
-`sw.js` (constante `FILES`). Penser à la mettre à jour lors de l'ajout
-d'une nouvelle histoire.
+L'état de l'ordre est conservé en mémoire.  
+Un **clone visuel** suit le doigt pendant le glisser tactile pour un retour immédiat.
+
+### Chargement dynamique des histoires
+
+La page `game.html` charge le fichier `story.js` correspondant  
+via le paramètre d'URL `?story=` :
+
+```html
+<!-- Exemple -->
+game.html?story=story-4_l_Epreuve_cachee
+```
+
+Le script est injecté dynamiquement dans le `<head>`.  
+La variable globale `STORY` est ensuite passée à `Core.init(STORY)`.
+
+### PWA (Progressive Web App)
+
+Le projet est installable sur mobile et fonctionne **hors ligne** grâce à :
+
+- **`manifest.json`** — métadonnées d'installation (nom, icônes, couleurs)
+- **`sw.js`** — Service Worker (version `textoquest-v5`) gérant le cache de toutes les ressources statiques (pages, styles, scripts, images, stories)
 
 ---
 
-## 5. Format d'une histoire (`story.js`)
+## 5. Fonctionnement pédagogique
 
-Chaque histoire expose une constante globale `STORY` :
+### Méthode des 6W (page d'accueil)
 
-```js
-const STORY = {
-  id: "story-3_l_Hirondelle_Blanche", // doit correspondre au nom du dossier
-  title: "L'Hirondelle Blanche",
-  description: "Ta mission : …",
-  background: "stories/story-3_l_Hirondelle_Blanche/bg.png",
-  cover: "stories/story-3_l_Hirondelle_Blanche/cover.png",
-  level: 3, // affiché sur la carte d'accueil (1 à 4)
-  text: `<p>Le texte HTML…</p>`,
+La page d'accueil présente la **méthode du détective** basée sur les 6 questions fondamentales :
 
-  phases: [
-    // ── Type 1 : puzzle drag-and-drop ──────────────
-    {
-      type: "drag-drop",
-      title: "🔍 Remets l'histoire dans l'ordre",
-      instructions: "Glisse les blocs…",
-      blocks: [
-        { id: 0, label: "Le début", text: "Résumé du bloc 0." },
-        { id: 1, label: "La découverte", text: "Résumé du bloc 1." },
-        // … id consécutifs depuis 0
-      ],
-    },
+| Question             | Sens                  |
+| -------------------- | --------------------- |
+| **Qui ?** (Who)      | De qui parle-t-on ?   |
+| **Quoi ?** (What)    | Que se passe-t-il ?   |
+| **Où ?** (Where)     | C'est où ?            |
+| **Quand ?** (When)   | C'est quand ?         |
+| **Pourquoi ?** (Why) | Pourquoi ça arrive ?  |
+| **Comment ?** (How)  | Comment ça se passe ? |
 
-    // ── Type 2 : QCM ───────────────────────────────
-    {
-      type: "qcm",
-      title: "❓ Question",
-      instructions: "",
-      question: "Quel animal Léa rencontre-t-elle ?",
-      multiple: false, // true → cases à cocher ; false → boutons radio
-      options: [
-        { text: "Un loup", correct: false },
-        { text: "Un renard", correct: true },
-      ],
-    },
+### Progression des questions (Phase 2)
 
-    // ── Type 3 : réponses libres ───────────────────
-    {
-      type: "free-text",
-      title: "🕵️ Interroge le texte",
-      instructions: "",
-      clues: [
-        {
-          number: "Indice 1 / 4",
-          type: "🧍 Personnages",
-          question: "Décris Alba et explique pourquoi elle quitte son nid.",
-          keywords: [
-            { group: "Description", words: ["blanc", "blanche", "différent"] },
-            { group: "Raison", words: ["rejet", "seule", "regard"] },
-          ],
-          hints: ["entièrement blanche", "elle prit sa décision"],
-        },
-        // … jusqu'à l'indice 4 / 4
-      ],
-    },
-  ],
+Les indices suivent une montée en complexité cognitive :
 
-  badges: [
-    { min: 0, max: 1, icon: "🔎", title: "Détective débutant", subtitle: "…" },
-    { min: 2, max: 2, icon: "🕵️", title: "Inspecteur en herbe", subtitle: "…" },
-    { min: 3, max: 3, icon: "🏅", title: "Grand Inspecteur", subtitle: "…" },
-    {
-      min: 4,
-      max: 4,
-      icon: "🌟",
-      title: "Détective Légendaire",
-      subtitle: "…",
-    },
-  ],
-};
-```
-
----
-
-## 6. Fonctionnement pédagogique
-
-### Progression des questions (phase `free-text`)
-
-| #   | Type                 | Compétence visée               |
-| --- | -------------------- | ------------------------------ |
-| 1   | 🧍 Personnages       | Identifier et décrire          |
-| 2   | 🗺️ Étapes du voyage  | Situer, citer le texte         |
-| 3   | ❤️ Émotions          | Relever des indices implicites |
-| 4   | 🌱 Récit initiatique | Interpréter le sens profond    |
-
-> La nature et le nombre des questions sont librement adaptables dans
-> chaque `story.js` selon le niveau et les objectifs pédagogiques visés.
+| #   | Type                 | Compétence visée                 |
+| --- | -------------------- | -------------------------------- |
+| 1   | 🧍 Factuel           | Identifier les personnages       |
+| 2   | 🗺️ Lieu & contexte   | Situer l'action, citer le texte  |
+| 3   | 📖 Compréhension     | Reformuler un événement          |
+| 4   | ❤️ Émotions          | Relever des indices implicites   |
+| 5   | 🔬 Analyse           | Identifier un procédé littéraire |
+| 6   | 🌱 Récit initiatique | Interpréter le sens profond      |
 
 ### Texte toujours visible
 
-Le texte reste accessible dans un panneau scrollable **tout au long du
-parcours**, encourageant le va-et-vient entre lecture et réponse.
+Le texte reste accessible dans un **panneau latéral scrollable** pendant toute la durée de l'exercice,  
+favorisant l'aller-retour entre lecture et réponse.
 
-### Suivi visuel de la progression
+### Suivi de la progression
 
-Des **tampons** (stamps) s'affichent en temps réel pour matérialiser chaque
-indice collecté, renforçant la motivation de l'élève.
-
-### Niveaux de difficulté
-
-Les histoires sont classées par niveau (1 à 3 actuellement) et affichées
-dans cet ordre sur la page d'accueil. Le niveau est matérialisé par des
-points colorés sur la vignette de chaque histoire.
+Un système de **tampons (stamps)** visualise en temps réel le nombre d'indices collectés,  
+renforçant la motivation de l'élève au fil du parcours.
 
 ---
 
-## 7. Personnalisation & extensibilité
+## 6. Personnalisation & extensibilité
 
-### Ajouter une nouvelle histoire
+Toute la matière pédagogique est isolée dans le fichier **`story.js`** de chaque histoire.  
+Aucune modification du HTML ou du CSS global n'est nécessaire pour adapter le contenu.
 
-1. Créer le dossier `stories/story-N_Nom_de_l_histoire/`
-2. Y placer `story.js`, `style.css`, `bg.png`, `cover.png`
-3. Ajouter les chemins correspondants dans la liste `FILES` de `sw.js`
-4. L'histoire apparaît automatiquement sur la page d'accueil
-
-### Modifier le texte
+### Changer le texte de l'histoire
 
 ```js
 text: `<p>Ton nouveau texte ici…</p>`,
 ```
 
-### Ajouter un bloc puzzle
+### Ajouter / modifier un bloc puzzle
 
 ```js
-{ id: 4, label: "L'épilogue", text: "Résumé du bloc." }
+{ id: 3, label: "Titre du bloc", text: "Résumé affiché à l'élève." }
 ```
 
-> ⚠️ Les `id` doivent être des entiers **consécutifs depuis `0`**.
+> ⚠️ Les `id` doivent être des entiers consécutifs depuis `0`  
+> pour que la validation de l'ordre fonctionne correctement.
 
-### Ajouter un indice (phase `free-text`)
+### Ajouter / modifier un indice (type `free-text`)
 
 ```js
 {
-  number:   "Indice 5 / 5",
+  number:   "Indice 7 / 7",
   type:     "🔬 Analyse",
   question: "Ta question ici.",
-  keywords: [{ group: "Groupe", words: ["mot1", "mot2"] }],
-  hints:    ["expression à surligner dans le texte"]
+  keywords: [
+    { group: "NomDuGroupe", words: ["mot1", "mot2", "mot3"] }
+  ],
+  help: [
+    { level: 1, icon: "💡", title: "Astuce méthode",        text: "…" },
+    { level: 2, icon: "🔍", title: "Cherche dans le texte", text: "…" },
+    { level: 3, icon: "🔦", title: "Passages surlignés",    text: "…" },
+  ]
+}
+```
+
+### Ajouter une question QCM
+
+```js
+{
+  type:     "qcm",
+  title:    "❓ Ma question",
+  question: "Quel est le bon choix ?",
+  multiple: false,   // true pour plusieurs bonnes réponses
+  options: [
+    { text: "Option A", correct: true  },
+    { text: "Option B", correct: false },
+  ]
 }
 ```
 
 ### Modifier les badges
 
 ```js
-{ min: 0, max: 1, icon: "🔎", title: "Titre", subtitle: "Sous-titre" }
+{ min: 0, max: 2, icon: "🔎", title: "Détective débutant",  subtitle: "…" }
+{ min: 3, max: 4, icon: "🕵️", title: "Inspecteur en herbe", subtitle: "…" }
+{ min: 5, max: 5, icon: "🏅", title: "Grand Inspecteur",    subtitle: "…" }
+{ min: 6, max: 6, icon: "🌟", title: "Détective Légendaire", subtitle: "…" }
 ```
 
-### Personnaliser le thème d'une histoire
+### Ajouter une nouvelle histoire
 
-```css
-/* stories/story-N_Nom/style.css */
-:root {
-  --border: #2a6a8a;
-  --accent: #3a9abf;
-  --accent2: #55c0f0;
+1. Créer un dossier `stories/story-N_Nom_Histoire/`
+2. Y placer `story.js`, `style.css`, `bg.png`, `cover.png`
+3. Ajouter l'entrée dans le tableau `STORIES` de `index.html` :
+
+```js
+{
+  id:    "story-N_Nom_Histoire",
+  level: N,
+  title: "Titre affiché",
+  desc:  "Description courte.",
+  cover: "stories/story-N_Nom_Histoire/cover.png"
 }
 ```
 
+4. Ajouter les ressources dans la liste `FILES` de `sw.js` pour le cache offline.
+
 ---
 
-## 8. Lancer le projet
+## 7. Lancer le projet
 
 ### En local (sans serveur)
 
 ```bash
-open index.html        # macOS
-xdg-open index.html    # Linux
-start index.html       # Windows
+# Cloner ou télécharger le dossier
+# Ouvrir index.html dans un navigateur
 ```
 
-### Avec un serveur local (recommandé — active le Service Worker)
+Aucun serveur, aucune installation requise.
+
+### Avec un serveur local _(recommandé pour activer le Service Worker)_
 
 ```bash
-python -m http.server 8000   # Python 3
-npx serve .                  # Node.js
+# Python 3
+python -m http.server 8000
+
+# Node.js (npx)
+npx serve .
 ```
 
-Ouvrir ensuite `http://localhost:8000`.
+Puis ouvrir `http://localhost:8000` dans le navigateur.
 
-> ⚠️ Le Service Worker et les fonctionnalités PWA nécessitent **HTTPS ou `localhost`**.
+> ⚠️ Le Service Worker (`sw.js`) et les fonctionnalités PWA nécessitent  
+> un contexte **HTTPS** ou **localhost** pour s'activer.
 
-### Déploiement statique
+### Déploiement
 
-| Plateforme       | Méthode                                                                 |
-| ---------------- | ----------------------------------------------------------------------- |
-| **GitHub Pages** | Dépôt public → Settings → Pages → `/root`                               |
-| **Netlify**      | Glisser le dossier sur [netlify.com/drop](https://app.netlify.com/drop) |
-| **ENT / Moodle** | Zipper et déposer comme ressource ou iframe                             |
+Compatible avec tout hébergement de fichiers statiques :
+
+| Plateforme       | Méthode                                                             |
+| ---------------- | ------------------------------------------------------------------- |
+| **GitHub Pages** | Dépôt public → Settings → Pages                                     |
+| **Netlify**      | Glisser le dossier sur [netlify.com/drop](https://netlify.com/drop) |
+| **ENT / Moodle** | Zipper et déposer comme ressource H5P ou iframe                     |
 
 ---
 
-## 9. Auteure & contact
+## 8. Auteure & contact
 
 |                         |                    |
 | ----------------------- | ------------------ |
@@ -450,11 +386,9 @@ Ouvrir ensuite `http://localhost:8000`.
 | 🏢 **Entreprise**       | CND - Web is Yours |
 | 📅 **Date de création** | Mai 2026           |
 
-> Projet conçu et développé par **CND - Web is Yours**.  
-> Pour toute question, demande d'adaptation ou de nouveau module
-> pédagogique, contactez Claire Naudin.
+Projet conçu et développé par **CND - Web is Yours**.  
+Pour toute question, demande d'adaptation ou de nouveau module pédagogique, contactez Claire Naudin.
 
 ---
 
-_© Mai 2026 – Claire Naudin / CND - Web is Yours.  
-Contenu librement adaptable dans un cadre éducatif._
+_© Mai 2026 – Claire Naudin / CND - Web is Yours. Contenu librement adaptable dans un cadre éducatif._
