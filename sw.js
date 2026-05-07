@@ -1,4 +1,4 @@
-const CACHE = "textoquest-v5";
+const CACHE = "textoquest-v6";
 const FILES = [
   // Pages
   "./index.html",
@@ -36,17 +36,29 @@ const FILES = [
   "./stories/story-2_le_Nain_Grognon/bg.png",
   "./stories/story-2_le_Nain_Grognon/cover.png",
 
-  // Story 3 – L'Hirondelle Blanche
+  // Story 3 – L\'Hirondelle Blanche
   "./stories/story-3_l_Hirondelle_Blanche/story.js",
   "./stories/story-3_l_Hirondelle_Blanche/style.css",
   "./stories/story-3_l_Hirondelle_Blanche/bg.png",
   "./stories/story-3_l_Hirondelle_Blanche/cover.png",
 
-  // Story 4 – L'Épreuve Cachée
+  // Story 4 – L\'Épreuve Cachée
   "./stories/story-4_l_Epreuve_cachee/story.js",
   "./stories/story-4_l_Epreuve_cachee/style.css",
   "./stories/story-4_l_Epreuve_cachee/bg.png",
   "./stories/story-4_l_Epreuve_cachee/cover.png",
+
+  // Story 5 – Miss Piplette
+  "./stories/story-5_Miss_Piplette/story.js",
+  "./stories/story-5_Miss_Piplette/style.css",
+  "./stories/story-5_Miss_Piplette/bg.png",
+  "./stories/story-5_Miss_Piplette/cover.png",
+
+  // Story 6 – Les Trois Frères
+  "./stories/story-6_Les_Trois_Freres/story.js",
+  "./stories/story-6_Les_Trois_Freres/style.css",
+  "./stories/story-6_Les_Trois_Freres/bg.png",
+  "./stories/story-6_Les_Trois_Freres/cover.png",
 ];
 
 self.addEventListener("install", (e) => {

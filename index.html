@@ -58,11 +58,12 @@
             { id: "story-3_l_Hirondelle_Blanche", level: 3, title: "L'Hirondelle Blanche", desc: "Un voyage initiatique à la recherche d'une vraie famille.", cover: "stories/story-3_l_Hirondelle_Blanche/cover.png" },
             { id: "story-4_l_Epreuve_cachee", level: 4, title: "L'Épreuve Cachée", desc: "Une mission nocturne sur les toits de Kazan.", cover: "stories/story-4_l_Epreuve_cachee/cover.png" },
             { id: "story-5_Miss_Piplette", level: 2, title: "Miss Piplette", desc: "Miss Piplette parle, parle, parle… mais écoute-t-elle vraiment les autres ?", cover: "stories/story-5_Miss_Piplette/cover.png" },
+            { id: "story-6_Les_Trois_Freres", level: 3, title: "Les Trois Frères", desc: "Dire tout le temps non, tout le temps oui, tout le temps rien… laquelle est la bonne ?", cover: "stories/story-6_Les_Trois_Freres/cover.png" },
         ];
 
         const grid = document.getElementById("stories-grid");
         STORIES.sort((a, b) => a.level - b.level).forEach(s => {
-            const dots = [1, 2, 3, 4].map(i => `<span class="${i <= s.level ? "on" : ""}"></span>`).join("");
+            const dots = [1, 2, 3, 4, 5].map(i => `<span class="${i <= s.level ? "on" : ""}"></span>`).join("");
             grid.insertAdjacentHTML("beforeend", `
                 <a class="story-card" href="game.html?story=${s.id}">
                     <img class="card-cover" src="${s.cover}" alt="${s.title}" onerror="this.style.display='none'" />
