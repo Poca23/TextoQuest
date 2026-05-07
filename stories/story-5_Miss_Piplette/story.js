@@ -27,7 +27,7 @@ const STORY = {
     <p>Zoé sourit et quitta la pièce.</p>
     <p>Alors Miss Piplette commença à nettoyer l'eau, ramasser les fleurs, ranger le vase. Et tout en travaillant, elle réfléchissait. Une fois tout rangé, elle s'assit dans son grand fauteuil et réfléchit encore.</p>
     <p>La nuit passa. Le soleil se leva. Les oiseaux chantèrent. Le coq fit entendre sa voix. Une fois le petit déjeuner pris, Miss Piplette prit son téléphone et appela Léa.</p>
-    <p>— Allô ? Léa, c'est Miss Piplette… tu voulais me dire quelque chose ce matin ?</p>
+    <p>— Allô ? Léa, c'est Miss Piplette… tu voulais me dire quelque chose hier ?</p>
     <p>Il y eut un silence. Puis Léa parla. Et cette fois, Miss Piplette écouta. Elle écouta vraiment.</p>
     <p><em>C'est ainsi que Miss Piplette apprit à regarder, à écouter, et à partager avec les autres.</em></p>
   `,

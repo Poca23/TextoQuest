@@ -252,7 +252,7 @@ const STORY = {
           number: "Indice 5 / 6",
           type: "🔬 Observe l'écriture",
           question:
-            "L'auteure présente les trois frères de la même façon, avec la même structure à chaque fois. Qu'est-ce qui se répète d'un frère à l'autre ? Pourquoi, selon toi ?",
+            "L'auteure présente les trois frères de la même façon, avec la même structure à chaque fois. Quels détais sont donnés sur les personnages ? Grâce à ce procédé répétitif, que peut-on identifier plus facilement entre les personnages ?",
           keywords: [
             {
               group: "Structure",
