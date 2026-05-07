@@ -1,22 +1,15 @@
 /* ── BIBLIOTHÈQUE – fond d'accueil ────────────────────
-   Fichier : assets/index-library.css
-   Lié uniquement dans index.html
 ──────────────────────────────────────────────────── */
 
-/* 1. Le fond : bibliothèque plein écran, couvre tout */
 body {
   background: url("library.png") center / cover no-repeat fixed;
 }
 
-/* 2. Overlay sombre global (déjà dans style.css via body::before — rien à changer) */
-
-/* 3. Centrage vertical + horizontal du contenu */
 .screen.active {
   align-items: center;
   justify-content: center;
 }
 
-/* 4. Conteneur principal : zone "livre ouvert" posée sur la table */
 .index-wrap {
   max-width: 860px;
   width: 90%;
@@ -28,7 +21,6 @@ body {
     0 0 60px rgba(0, 0, 0, 0.85),
     inset 0 0 40px rgba(232, 148, 58, 0.04);
   backdrop-filter: blur(3px);
-  /* ligne centrale reliure */
   position: relative;
 }
 .index-wrap::after {
@@ -49,7 +41,6 @@ body {
   pointer-events: none;
 }
 
-/* 5. Logo centré au-dessus des cartes */
 .index-logo {
   max-width: 280px;
   margin: 0 auto 2rem;
@@ -67,13 +58,11 @@ body {
   object-fit: cover;
 }
 
-/* 6. Grille des cartes : 3 colonnes fixes dans le livre */
 .stories-grid {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
 }
 
-/* 7. Cartes : légèrement remontées comme des marque-pages */
 .story-card {
   transform: translateY(0);
   transition:
@@ -90,7 +79,6 @@ body {
   border-color: var(--accent2);
 }
 
-/* 8. Responsive : une colonne sur mobile */
 @media (max-width: 640px) {
   .stories-grid {
     grid-template-columns: 1fr;
