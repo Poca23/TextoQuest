@@ -22,7 +22,7 @@ Elle propose un parcours de lecture en plusieurs phases autour d'extraits litté
 
 |                     |                                                      |
 | ------------------- | ---------------------------------------------------- |
-| 📚 **Histoires**    | 4 récits de niveaux 1 à 4                            |
+| 📚 **Histoires**    | 6 récits de niveaux 1 à 4                            |
 | 🎯 **Objectif**     | Comprendre, analyser et interroger un texte narratif |
 | 👤 **Public cible** | Élèves de 10 à 14 ans                                |
 | 🛠️ **Technologies** | HTML · CSS · JavaScript vanilla                      |
@@ -31,12 +31,14 @@ Elle propose un parcours de lecture en plusieurs phases autour d'extraits litté
 
 ### Histoires disponibles
 
-| Niveau | Titre                     | Description                                                                 |
-| ------ | ------------------------- | --------------------------------------------------------------------------- |
-| 1      | **La Forêt des Murmures** | Une aventure courte pour s'initier au jeu.                                  |
-| 2      | **Le Nain Grognon**       | Un jeune nain découvre qu'à force de ronchonner, il passe à côté de la vie. |
-| 3      | **L'Hirondelle Blanche**  | Un voyage initiatique à la recherche d'une vraie famille.                   |
-| 4      | **L'Épreuve Cachée**      | Une mission nocturne sur les toits de Kazan.                                |
+| Niveau | Titre                     | Description                                                                            |
+| ------ | ------------------------- | -------------------------------------------------------------------------------------- |
+| 1      | **La Forêt des Murmures** | Une aventure courte pour s'initier au jeu.                                             |
+| 2      | **Le Nain Grognon**       | Un jeune nain découvre qu'à force de ronchonner, il passe à côté de la vie.            |
+| 3      | **L'Hirondelle Blanche**  | Un voyage initiatique à la recherche d'une vraie famille.                              |
+| 4      | **L'Épreuve Cachée**      | Une mission nocturne sur les toits de Kazan.                                           |
+| 2      | **Miss Piplette**         | Miss Piplette parle, parle, parle… mais écoute-t-elle vraiment les autres ?            |
+| 3      | **Les Trois Frères**      | Dire tout le temps non, tout le temps oui, tout le temps rien… laquelle est la bonne ? |
 
 ### Parcours de l'élève
 
@@ -86,7 +88,7 @@ textoquest/
 ├── core.js                  # Logique applicative complète
 ├── style.css                # Thème global (couleurs, cartes, puzzle, QCM, texte libre)
 ├── manifest.json            # Configuration PWA
-├── sw.js                    # Service Worker (cache offline, version v5)
+├── sw.js                    # Service Worker (cache offline, version v6)
 ├── assets/
 │   ├── logo/                # Logo TextoQuest
 │   ├── favicon/             # Favicons multi-formats
@@ -103,7 +105,11 @@ textoquest/
     │   └── …
     ├── story-3_l_Hirondelle_Blanche/
     │   └── …
-    └── story-4_l_Epreuve_cachee/
+    ├── story-4_l_Epreuve_cachee/
+    │   └── …
+    ├── story-5_Miss_Piplette/
+    │   └── …
+    └── story-6_Les_Trois_Freres/
         └── …
 ```
 
@@ -214,7 +220,7 @@ La variable globale `STORY` est ensuite passée à `Core.init(STORY)`.
 Le projet est installable sur mobile et fonctionne **hors ligne** grâce à :
 
 - **`manifest.json`** — métadonnées d'installation (nom, icônes, couleurs)
-- **`sw.js`** — Service Worker (version `textoquest-v5`) gérant le cache de toutes les ressources statiques (pages, styles, scripts, images, stories)
+- **`sw.js`** — Service Worker (version `textoquest-v6`) gérant le cache de toutes les ressources statiques (pages, styles, scripts, images, stories)
 
 ---
 
@@ -289,9 +295,9 @@ text: `<p>Ton nouveau texte ici…</p>`,
     { group: "NomDuGroupe", words: ["mot1", "mot2", "mot3"] }
   ],
   help: [
-    { level: 1, icon: "💡", title: "Astuce méthode",        text: "…" },
-    { level: 2, icon: "🔍", title: "Cherche dans le texte", text: "…" },
-    { level: 3, icon: "🔦", title: "Passages surlignés",    text: "…" },
+    { level: 1, icon: "💡", title: "Astuce méthode",              text: "…" },
+    { level: 2, icon: "🔍", title: "Cherche dans le texte",       text: "…" },
+    { level: 3, icon: "🔦", title: "Passages surlignés",          text: "…" },
   ]
 }
 ```
@@ -314,9 +320,9 @@ text: `<p>Ton nouveau texte ici…</p>`,
 ### Modifier les badges
 
 ```js
-{ min: 0, max: 2, icon: "🔎", title: "Détective débutant",  subtitle: "…" }
-{ min: 3, max: 4, icon: "🕵️", title: "Inspecteur en herbe", subtitle: "…" }
-{ min: 5, max: 5, icon: "🏅", title: "Grand Inspecteur",    subtitle: "…" }
+{ min: 0, max: 2, icon: "🔎", title: "Détective débutant",   subtitle: "…" }
+{ min: 3, max: 4, icon: "🕵️", title: "Inspecteur en herbe",  subtitle: "…" }
+{ min: 5, max: 5, icon: "🏅", title: "Grand Inspecteur",     subtitle: "…" }
 { min: 6, max: 6, icon: "🌟", title: "Détective Légendaire", subtitle: "…" }
 ```
 
@@ -336,7 +342,14 @@ text: `<p>Ton nouveau texte ici…</p>`,
 }
 ```
 
-4. Ajouter les ressources dans la liste `FILES` de `sw.js` pour le cache offline.
+4. Ajouter les ressources dans la liste `FILES` de `sw.js` pour le cache offline :
+
+```js
+"./stories/story-N_Nom_Histoire/story.js",
+"./stories/story-N_Nom_Histoire/style.css",
+"./stories/story-N_Nom_Histoire/bg.png",
+"./stories/story-N_Nom_Histoire/cover.png",
+```
 
 ---
 
