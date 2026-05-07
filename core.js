@@ -391,6 +391,7 @@ const Core = (() => {
     _showHelp(c, attempts);
 
     if (attempts >= 3) {
+      _clearHighlights();
       _highlightHints(c.hints);
       _feedback("phase-feedback", "error", "🔦 Relis les passages surlignés !");
     } else {
@@ -442,7 +443,9 @@ const Core = (() => {
     ["story-text", "story-text-phase"].forEach((id) => {
       const el = $(id);
       if (!el) return;
-      el.innerHTML = el.innerHTML.replace(/<mark>(.*?)<\/mark>/gi, "$1");
+      el.querySelectorAll("mark").forEach((mark) => {
+        mark.replaceWith(mark.textContent);
+      });
     });
   }
 
