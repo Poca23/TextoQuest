@@ -464,3 +464,108 @@ mark {
 .level-dot span.on {
   background: var(--accent2);
 }
+
+/* ══════════════════════════════════════════
+   SECTION 6W — page d'accueil
+══════════════════════════════════════════ */
+.sixw-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.sixw-block {
+  background: rgba(15, 10, 5, 0.75);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  width: 100%;
+}
+
+.sixw-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--accent2);
+  margin: 0 0 0.6rem;
+}
+
+.sixw-intro {
+  font-size: 0.85rem;
+  color: var(--text-muted, #aaa);
+  margin: 0 0 0.8rem;
+}
+
+.sixw-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+.sixw-grid span {
+  background: rgba(20, 14, 6, 0.75);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  color: var(--text);
+}
+
+.sixw-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .sixw-section {
+    grid-template-columns: 1fr;
+  }
+  .sixw-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════════════════════════
+   BULLES D'AIDE — phase free-text
+══════════════════════════════════════════ */
+.help-bubble {
+  display: none;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  border: 1.5px solid;
+}
+
+.help-bubble.visible {
+  display: block;
+}
+
+/* Niveau 1 — méthode (bleu) */
+.help-bubble.lvl-1 {
+  background: rgba(30, 60, 120, 0.3);
+  border-color: #4a90d9;
+  color: #acd4ff;
+}
+
+/* Niveau 2 — guidage (jaune/orange) */
+.help-bubble.lvl-2 {
+  background: rgba(140, 80, 0, 0.3);
+  border-color: var(--accent2);
+  color: #ffd080;
+}
+
+/* Niveau 3 — surlignage + synthèse (rouge doux) */
+.help-bubble.lvl-3 {
+  background: rgba(120, 30, 30, 0.3);
+  border-color: #d94a4a;
+  color: #ffaaaa;
+}
+
+.help-bubble strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.92rem;
+}

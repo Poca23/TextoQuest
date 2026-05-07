@@ -89,6 +89,26 @@ const STORY = {
             },
           ],
           hints: ["prénommé Borin", "ronchonnait"],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi la question : <strong>Qui ?</strong> — Cherche le vrai prénom du personnage dans le texte, puis cherche pourquoi les autres lui ont donné un surnom.",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Relis la toute première phrase. Tu y trouveras son vrai prénom. Puis cherche le mot qui explique pourquoi on l'appelle Grogno.",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces mots sont dans la première phrase. Recopie le vrai prénom, puis explique ce que le mot surligné nous dit sur son caractère.",
+            },
+          ],
         },
         {
           number: "Indice 2 / 3",
@@ -105,6 +125,26 @@ const STORY = {
             "partie de quilles",
             "soupe",
             "la solution était là depuis le début",
+          ],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi la question : <strong>Quoi ?</strong> — Que se passe-t-il à chaque fois que Grogno dit non ou se plaint ? Qu'est-ce qu'il ne fait pas, et qu'est-ce qu'il ne voit pas ?",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Relis le paragraphe sur les quilles : qu'entend-il de loin ? Puis relis le paragraphe sur la soupe : que dit-il avant de goûter ?",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces passages montrent deux moments où Grogno rate quelque chose. Pour chacun, dis ce qu'il rate et pourquoi.",
+            },
           ],
         },
         {
@@ -134,6 +174,26 @@ const STORY = {
             "il rit",
             "il enfila sa veste et y alla",
             "tu as l'air différent",
+          ],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi la question : <strong>Pourquoi ?</strong> — Qu'est-ce qui change chez Grogno à la fin ? Pourquoi est-ce que ça change ?",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Relis le dernier paragraphe. Que fait Grogno différemment ? Qu'est-ce que Pippa lui dit ?",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces phrases montrent que Grogno a changé. Qu'est-ce qu'il a compris ? Dis-le avec tes propres mots.",
+            },
           ],
         },
       ],

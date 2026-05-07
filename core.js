@@ -354,6 +354,7 @@ const Core = (() => {
     attempts = 0;
     _hideFeedback("phase-feedback");
     _clearHighlights();
+    _clearHelp();
   }
 
   function _checkFreeText(phase) {
@@ -371,6 +372,7 @@ const Core = (() => {
     const { ok, missing } = _matchKeywords(answer, c.keywords);
     if (ok) {
       _clearHighlights();
+      _clearHelp();
       score++;
       _buildStamps(phase.clues.length, phase._current + 1);
       _feedback("phase-feedback", "success", "🔎 Indice collecté !");
@@ -386,21 +388,34 @@ const Core = (() => {
     }
 
     attempts++;
-    const miss = missing.map((g) => g.group).join(", ");
+    _showHelp(c, attempts);
+
     if (attempts >= 3) {
       _highlightHints(c.hints);
-      _feedback(
-        "phase-feedback",
-        "error",
-        `💡 Relis les passages surlignés ! Il manquait : ${miss}.`,
-      );
+      _feedback("phase-feedback", "error", "🔦 Relis les passages surlignés !");
     } else {
       _feedback(
         "phase-feedback",
         "error",
-        `🔍 Pas tout à fait… Il manque : ${miss}. (${3 - attempts} essai(s) avant un indice)`,
+        `🔍 Pas tout à fait… (${3 - attempts} essai(s) avant un indice)`,
       );
     }
+  }
+
+  function _showHelp(clue, level) {
+    _clearHelp();
+    if (!clue.help || !clue.help[level - 1]) return;
+    const h = clue.help[level - 1];
+    const el = document.createElement("div");
+    el.id = "help-bubble";
+    el.className = `help-bubble visible lvl-${level}`;
+    el.innerHTML = `<strong>${h.icon} ${h.title}</strong>${h.text}`;
+    $("clue-answer").insertAdjacentElement("afterend", el);
+  }
+
+  function _clearHelp() {
+    const el = $("help-bubble");
+    if (el) el.remove();
   }
 
   function _matchKeywords(answer, keywords) {

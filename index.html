@@ -9,72 +9,68 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="assets/responsive.css">
     <link rel="stylesheet" href="assets/index-library.css" />
-
     <link rel="manifest" href="manifest.json" />
 </head>
 
 <body>
     <div class="screen active">
         <div class="index-wrap">
+
             <div class="intro-logo-wrap">
                 <img src="assets/logo/logo_TextoQuest.png" alt="TextoQuest" />
             </div>
+
+            <!-- ── SECTION 6W ── -->
+            <div class="sixw-section">
+
+                <div class="sixw-block">
+                    <h2 class="sixw-title">La méthode du détective</h2>
+                    <p class="sixw-intro">Pour comprendre un texte, pose-toi ces 6 questions :</p>
+                    <ul class="sixw-grid">
+                        <li><strong>Qui (Who) ?</strong> ⟶ De qui parle-t-on ?</li>
+                        <li><strong>Quoi (What) ?</strong> ⟶ Que se passe-t-il ?</li>
+                        <li><strong>Où (Where) ?</strong> ⟶ C'est où ?</li>
+                        <li><strong>Quand (When) ?</strong> ⟶ C'est quand ?</li>
+                        <li><strong>Pourquoi (Why) ?</strong> ⟶ Pourquoi ça arrive ?</li>
+                        <li><strong>Comment (How) ?</strong> ⟶ Comment ça se passe ?</li>
+                    </ul>
+                </div>
+
+                <div class="sixw-block">
+                    <h2 class="sixw-title">Comment jouer ?</h2>
+                    <ol class="sixw-steps">
+                        <li><strong>Lis l'histoire</strong> — Prends bien le temps de bien lire le texte</li>
+                        <li><strong>Remets en ordre</strong> — Replace les événements dans l'ordre chronologique</li>
+                        <li><strong>Trouve les indices</strong> — Réponds aux questions en enquêtant dans le texte</li>
+                    </ol>
+                </div>
+
+            </div>
+            <!-- ── FIN SECTION 6W ── -->
+
             <div id="stories-grid" class="stories-grid"></div>
         </div>
     </div>
 
     <script>
-        /* ── REGISTRY : ajoute ici chaque nouvelle histoire ── */
         const STORIES = [
-            {
-                id: "story-1_La_Foret_des_Murmures",
-                level: 1,
-                title: "La Forêt des Murmures",
-                desc: "Une aventure courte pour s'initier au jeu.",
-                cover: "stories/story-1_La_Foret_des_Murmures/cover.png",
-            },
-            {
-                id: "story-2_le_Nain_Grognon",
-                level: 2,
-                title: "Le Nain Grognon",
-                desc: "Un jeune nain découvre qu'à force de ronchonner, il passe à côté de la vie.",
-                cover: "stories/story-2_le_Nain_Grognon/cover.png",
-            },
-            {
-                id: "story-3_l_Hirondelle_Blanche",
-                level: 3,
-                title: "L'Hirondelle Blanche",
-                desc: "Un voyage initiatique à la recherche d'une vraie famille.",
-                cover: "stories/story-3_l_Hirondelle_Blanche/cover.png",
-            },
-            {
-                id: "story-4_l_Epreuve_cachee",
-                level: 4,
-                title: "L'Épreuve Cachée",
-                desc: "Une mission nocturne sur les toits de Kazan.",
-                cover: "stories/story-4_l_Epreuve_cachee/cover.png",
-            },
+            { id: "story-1_La_Foret_des_Murmures", level: 1, title: "La Forêt des Murmures", desc: "Une aventure courte pour s'initier au jeu.", cover: "stories/story-1_La_Foret_des_Murmures/cover.png" },
+            { id: "story-2_le_Nain_Grognon", level: 2, title: "Le Nain Grognon", desc: "Un jeune nain découvre qu'à force de ronchonner, il passe à côté de la vie.", cover: "stories/story-2_le_Nain_Grognon/cover.png" },
+            { id: "story-3_l_Hirondelle_Blanche", level: 3, title: "L'Hirondelle Blanche", desc: "Un voyage initiatique à la recherche d'une vraie famille.", cover: "stories/story-3_l_Hirondelle_Blanche/cover.png" },
+            { id: "story-4_l_Epreuve_cachee", level: 4, title: "L'Épreuve Cachée", desc: "Une mission nocturne sur les toits de Kazan.", cover: "stories/story-4_l_Epreuve_cachee/cover.png" },
         ];
 
-        /* ── Rendu automatique ────────────────────────────── */
         const grid = document.getElementById("stories-grid");
-
         STORIES.sort((a, b) => a.level - b.level).forEach(s => {
-            const dots = [1, 2, 3, 4].map(i =>
-                `<span class="${i <= s.level ? "on" : ""}"></span>`
-            ).join("");
-
+            const dots = [1, 2, 3, 4].map(i => `<span class="${i <= s.level ? "on" : ""}"></span>`).join("");
             grid.insertAdjacentHTML("beforeend", `
-        <a class="story-card" href="game.html?story=${s.id}">
-          <img class="card-cover" src="${s.cover}" alt="${s.title}"
-               onerror="this.style.display='none'" />
-          <span class="card-level">
-            Niveau ${s.level} &nbsp;<span class="level-dot">${dots}</span>
-          </span>
-          <span class="card-title">${s.title}</span>
-          <span class="card-desc">${s.desc}</span>
-        </a>
-      `);
+                <a class="story-card" href="game.html?story=${s.id}">
+                    <img class="card-cover" src="${s.cover}" alt="${s.title}" onerror="this.style.display='none'" />
+                    <span class="card-level">Niveau ${s.level} &nbsp;<span class="level-dot">${dots}</span></span>
+                    <span class="card-title">${s.title}</span>
+                    <span class="card-desc">${s.desc}</span>
+                </a>
+            `);
         });
     </script>
 </body>

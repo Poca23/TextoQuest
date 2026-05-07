@@ -55,7 +55,6 @@ const STORY = {
   `,
 
   phases: [
-    // ── PHASE 1 : puzzle drag-and-drop ──────────────
     {
       type: "drag-drop",
       title: "🔍 Phase 1 – Reconstitue le voyage d'Alba",
@@ -94,8 +93,6 @@ const STORY = {
         },
       ],
     },
-
-    // ── PHASE 2 : QCM unique, ciblé ─────────────────
     {
       type: "qcm",
       title: "❓ Phase 2 – Une question sur le texte",
@@ -116,20 +113,14 @@ const STORY = {
           text: "Elles cherchent à recruter de nouveaux membres.",
           correct: false,
         },
-        {
-          text: "Elles connaissaient déjà son nid d'origine.",
-          correct: false,
-        },
+        { text: "Elles connaissaient déjà son nid d'origine.", correct: false },
       ],
     },
-
-    // ── PHASE 3 : réponses libres ────────────────────
     {
       type: "free-text",
       title: "🕵️ Phase 3 – Interroge le texte",
       instructions: "",
       clues: [
-        // Indice 1 — factuel : personnage + motivation
         {
           number: "Indice 1 / 4",
           type: "🧍 Personnage & motivation",
@@ -150,15 +141,32 @@ const STORY = {
             "regards qui glissaient",
             "elle battait des ailes seule",
           ],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi deux questions : <strong>Qui ?</strong> — Comment est Alba ? Et <strong>Pourquoi ?</strong> — Qu'est-ce qui la pousse à partir ?",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Relis les deux premiers paragraphes. Cherche les mots qui décrivent la couleur d'Alba, puis les mots qui montrent qu'elle est seule.",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces passages montrent comment Alba est décrite et comment les autres la traitent. Utilise ces mots pour construire ta réponse.",
+            },
+          ],
         },
-
-        // Indice 2 — compréhension : les trois étapes
         {
           number: "Indice 2 / 4",
           type: "🗺️ Les étapes du voyage",
           question:
-            "Cite les trois familles rencontrées. Pour chacune, explique " +
-            "en une phrase pourquoi Alba repart.",
+            "Cite les trois familles rencontrées. Pour chacune, explique en une phrase pourquoi Alba repart.",
           keywords: [
             {
               group: "Familles",
@@ -181,23 +189,35 @@ const STORY = {
             "nous sommes un clan, pas un refuge",
             "Alba repartit le cœur serré",
           ],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi la question : <strong>Quoi ?</strong> — Que se passe-t-il à chaque étape ? Combien de familles Alba rencontre-t-elle ? Pourquoi repart-elle à chaque fois ?",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Repère les trois moments où Alba arrive chez une nouvelle famille. Pour chacun, lis ce que lui dit ou fait cette famille.",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces phrases sont dites par les familles rencontrées. Chacune explique pourquoi Alba repart. Recopie le nom de la famille et la raison.",
+            },
+          ],
         },
-
-        // Indice 3 — analyse : procédé littéraire
         {
           number: "Indice 3 / 4",
           type: "🔬 Analyse du style",
           question:
-            "Relève une comparaison du texte qui commence par 'comme'. " +
-            "Recopie-la puis explique ce qu'elle révèle sur Alba.",
+            "Relève une comparaison du texte qui commence par 'comme'. Recopie-la puis explique ce qu'elle nous dit sur Alba.",
           keywords: [
+            { group: "Citation", words: ["tache", "soie", "main"] },
             {
-              // L'élève doit citer l'une des trois comparaisons du texte
-              group: "Citation (mot 'comme' + élément comparé)",
-              words: ["tache", "soie", "main"],
-            },
-            {
-              // L'élève doit produire une interprétation minimale
               group: "Interprétation",
               words: [
                 "seule",
@@ -215,19 +235,35 @@ const STORY = {
             "comme des voiles de soie",
             "offerte comme on tend la main",
           ],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi la question : <strong>Comment ?</strong> — L'auteur compare Alba ou quelque chose à autre chose. Cherche le mot <strong>« comme »</strong> dans le texte.",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Cherche le mot « comme » dans le texte. Tu en trouveras plusieurs. Choisis-en une et demande-toi : qu'est-ce qui est comparé à quoi ? Qu'est-ce que ça nous fait ressentir ?",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces trois phrases contiennent le mot « comme ». Choisis-en une, recopie-la, puis dis ce qu'elle nous apprend sur Alba ou sur l'histoire.",
+            },
+          ],
         },
-
-        // Indice 4 — interprétation : message initiatique
         {
           number: "Indice 4 / 4",
           type: "🌱 Message de l'histoire",
           question:
-            "En quoi cette histoire est-elle un récit initiatique ? " +
-            "Quelle leçon Alba apprend-elle sur elle-même ?",
+            "En quoi cette histoire est-elle un voyage qui fait grandir ? Quelle leçon Alba apprend-elle sur elle-même ?",
           keywords: [
             {
-              // L'élève doit évoquer le parcours / la transformation
-              group: "Parcours (épreuve ou transformation)",
+              group: "Parcours",
               words: [
                 "voyage",
                 "épreuve",
@@ -238,8 +274,7 @@ const STORY = {
               ],
             },
             {
-              // L'élève doit nommer la leçon avec un mot du texte ou proche
-              group: "Leçon (différence valorisée)",
+              group: "Leçon",
               words: [
                 "différence",
                 "marque",
@@ -253,7 +288,27 @@ const STORY = {
           hints: [
             "sa différence n'était pas une erreur",
             "c'était sa marque",
-            "elle les aimait tous pareil, chacun dans leur singularité",
+            "chacun dans leur singularité",
+          ],
+          help: [
+            {
+              level: 1,
+              icon: "💡",
+              title: "Astuce méthode",
+              text: "Pose-toi la question : <strong>Pourquoi ?</strong> — Qu'est-ce qu'Alba comprend à la fin qu'elle ne savait pas au début ? En quoi a-t-elle changé ?",
+            },
+            {
+              level: 2,
+              icon: "🔍",
+              title: "Cherche dans le texte",
+              text: "Relis l'avant-dernier paragraphe. Cherche la phrase qui dit ce qu'Alba a compris sur sa différence.",
+            },
+            {
+              level: 3,
+              icon: "🔦",
+              title: "Regarde les passages surlignés",
+              text: "Ces phrases disent ce qu'Alba a appris sur elle-même. Utilise ces mots pour expliquer la leçon de l'histoire avec tes propres mots.",
+            },
           ],
         },
       ],
