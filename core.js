@@ -376,10 +376,15 @@ const Core = (() => {
       score++;
       _buildStamps(phase.clues.length, phase._current + 1);
       _feedback("phase-feedback", "success", "🔎 Indice collecté !");
+
+      const btn = $("phase-btn");
+      btn.disabled = true;
+
       if (phase._current < phase.clues.length - 1) {
         setTimeout(() => {
           phase._current++;
           _showClue(phase, phase._current);
+          btn.disabled = false;
         }, 1400);
       } else {
         setTimeout(_showResult, 1400);
